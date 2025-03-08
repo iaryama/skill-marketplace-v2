@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from "express";
 import { failureResponse } from "../../helpers/responseHelpers";
-import { createTask, updateTask, getTask, taskValidation } from "../../controller/task";
+import { createTask, updateTask, getTask, createTaskValidation, updateTaskValidation } from "../../controller/task";
 import { authenticate } from "../../middleware/authenticate";
 import { HTTP_STATUS_CODE } from "../../helpers/constants";
 
@@ -9,14 +9,14 @@ const router: Router = express.Router();
 
 router
   .route("/")
-  .post(authenticate, taskValidation, createTask)
+  .post(authenticate, createTaskValidation, createTask)
   .all((req: Request, res: Response) => {
     return failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, "METHOD_NOT_ALLOWED");
   });
 
 router
   .route("/:taskId")
-  .post(authenticate, taskValidation, updateTask)
+  .post(authenticate, updateTaskValidation, updateTask)
   .all((req: Request, res: Response) => {
     return failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, "METHOD_NOT_ALLOWED");
 });

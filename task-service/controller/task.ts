@@ -6,7 +6,7 @@ import { HTTP_STATUS_CODE, Log } from "../helpers/constants";
 import { Logger } from "../helpers/logger";
 
 // Validation Rules
-export const taskValidation = [
+export const createTaskValidation = [
   body("category").isString().notEmpty(),
   body("taskName").isString().notEmpty(),
   body("description").isString().notEmpty(),
@@ -24,7 +24,7 @@ export async function createTask(req: express.Request, res: express.Response) {
     //@ts-ignore
     const { uid } = req;
     const taskRef = db.collection("tasks").doc();
-    await taskRef.set({ ...req.body, clientId: uid, status: "open" });
+    await taskRef.set({ ...req.body, clientId: uid, status: "OPEN" });
 
     return successResponse(res, HTTP_STATUS_CODE.CREATED, { taskId: taskRef.id });
   } catch (error) {
@@ -32,6 +32,17 @@ export async function createTask(req: express.Request, res: express.Response) {
     return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR");
   }
 }
+
+export const updateTaskValidation = [
+  body("category").optional().isString().notEmpty(),
+  body("taskName").optional().isString().notEmpty(),
+  body("description").optional().isString().notEmpty(),
+  body("expectedStartDate").optional().isISO8601().notEmpty(),
+  body("expectedHours").optional().isInt({ min: 1 }),
+  body("hourlyRate").optional().isFloat({ min: 1 }),
+  body("currency").optional().isIn(["USD", "AUD", "SGD", "INR"]).notEmpty(),
+  body("status").optional().isIn(["OPEN", "CLOSED", "COMPLETED"]).notEmpty(),
+];
 
 export async function updateTask(req: express.Request, res: express.Response) {
   try {
