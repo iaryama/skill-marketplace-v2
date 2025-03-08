@@ -21,6 +21,7 @@ try {
   // Test the database connection
   await sequelize.authenticate();
   Logger.INFO('Connected to the PostgreSQL database.');
+  await sequelize.query('CREATE SCHEMA IF NOT EXISTS auth;');
   await User.sync();
   await connectRedis();
 } catch (error) {
