@@ -6,8 +6,8 @@ import { HTTP_STATUS_CODE, Log } from "../helpers/constants";
 import { Logger } from "../helpers/logger";
 
 // Validation Rules
-export const createTaskValidation = [
-  body("category").isString().notEmpty(),
+export const createSkillValidation = [
+  body("skill").isString().notEmpty(),
   body("taskName").isString().notEmpty(),
   body("description").isString().notEmpty(),
   body("expectedStartDate").isISO8601().notEmpty(),

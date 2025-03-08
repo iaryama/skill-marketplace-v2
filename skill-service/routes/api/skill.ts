@@ -1,6 +1,6 @@
 import express, { Request, Response, Router } from "express";
 import { failureResponse } from "../../helpers/responseHelpers";
-import { createTask, updateTask, getTask, createTaskValidation, updateTaskValidation } from "../../controller/task";
+import { createTask, updateTask, getTask, createTaskValidation, updateTaskValidation } from "../../controller/skill";
 import { authenticate } from "../../middleware/authenticate";
 import { HTTP_STATUS_CODE } from "../../helpers/constants";
 

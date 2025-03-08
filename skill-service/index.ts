@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import task from "./routes/api/task";
+import skill from "./routes/api/skill";
 import bodyParser from "body-parser";
 
 import { APP_PORT } from "./configuration/config";
@@ -15,12 +15,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 app.get("/", (req, res) => {
-  return successResponse(res, HTTP_STATUS_CODE.OK, "TASK SERVICE is RUNNING");
+  return successResponse(res, HTTP_STATUS_CODE.OK, "SKILL SERVICE is RUNNING");
 });
 
-app.use("/task", task);
+app.use("/skill", skill);
 
 const port = Number(APP_PORT);
 app.listen(port, () => {
-  Logger.INFO("Task Service is running on port:" + port);
+  Logger.INFO("Skill Service is running on port:" + port);
 });
