@@ -24,8 +24,12 @@ COPY . .
 # Compile TypeScript
 RUN npx tsc 
 
-# Expose the port
-EXPOSE 3050
+# Expose the REST port
+EXPOSE 3000
+
+# Expose the gRPC port
+EXPOSE 3001
+
 
 # Run compiled JavaScript
 CMD ["node", "build/index.js"] 
