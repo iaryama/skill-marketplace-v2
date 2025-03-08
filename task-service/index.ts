@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
   return successResponse(res, HTTP_STATUS_CODE.OK, "TASK SERVICE is RUNNING");
 });
 
-app.use("/tasks", task);
+app.use("/task", task);
 
 const port = Number(APP_PORT);
 app.listen(port, () => {
