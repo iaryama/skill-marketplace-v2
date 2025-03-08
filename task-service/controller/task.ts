@@ -23,10 +23,10 @@ export async function createTask(req: express.Request, res: express.Response) {
 
     //@ts-ignore
     const { uid } = req;
-    const taskRef = db.collection("tasks").doc();
     const {category} = req.body as {category: string};
     const categoryDoc = await db.collection("categories").doc(category).get();
     if (!categoryDoc.exists) return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, "CATEGORY_NOT_FOUND");
+    const taskRef = db.collection("tasks").doc();
     await taskRef.set({ ...req.body, clientId: uid, status: "OPEN" }, {merge: true});
 
     return successResponse(res, HTTP_STATUS_CODE.CREATED, { taskId: taskRef.id });

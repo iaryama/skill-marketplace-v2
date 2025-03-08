@@ -7,7 +7,7 @@ import { db } from "../db/connectFirestore";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { failureResponse, successResponse } from "../helpers/responseHelpers";
-import { HTTP_STATUS_CODE, Log } from "../helpers/constants";
+import { HTTP_STATUS_CODE } from "../helpers/constants";
 
 export const signUpValidation = [
   body("providerType").isIn(["individual", "company"]).notEmpty(),
@@ -55,7 +55,7 @@ export async function signUp(req: express.Request, res: express.Response) {
 
     const { uid } = await admin.auth().createUser({ email, password, displayName: providerType === "individual" ? `${firstName} ${lastName}` : companyName });
     const userType = req.originalUrl.split("/")[1] as "client" | "contractor";
-    const collectionRef = db.collection(userType);
+    const collectionRef = db.collection(`${userType}s`);
     await collectionRef.doc(uid).set({
       providerType,
       firstName,
@@ -75,7 +75,7 @@ export async function signUp(req: express.Request, res: express.Response) {
   }
 }
 
-async function loginUser(req: express.Request, res: express.Response, userType: "client" | "contractor") {
+async function loginUser(req: express.Request, res: express.Response, userType: "clients" | "contractors") {
   try {
     const authorizationHeader = req.headers.authorization;
     if (!authorizationHeader) {
@@ -114,9 +114,9 @@ async function loginUser(req: express.Request, res: express.Response, userType: 
 }
 
 export function loginClient(req: express.Request, res: express.Response) {
-  return loginUser(req, res, "client");
+  return loginUser(req, res, "clients");
 }
 
 export function loginContractor(req: express.Request, res: express.Response) {
-  return loginUser(req, res, "contractor");
+  return loginUser(req, res, "contractors");
 }
