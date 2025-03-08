@@ -5,17 +5,28 @@ import bodyParser from 'body-parser';
 import { User } from './models/user';
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
-
+import { sequelize } from './db/connectPostgres';
+import { redisClient, connectRedis } from './db/connectRedis';
 import { GRPC_APP_PORT, REST_APP_PORT } from './configuration/config';
 import { Logger } from './helpers/logger';
 import { successResponse } from './helpers/responseHelpers';
-import { HTTP_STATUS_CODE, Log } from './helpers/constants';
+import { HTTP_STATUS_CODE } from './helpers/constants';
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
+try {
+  // Test the database connection
+  await sequelize.authenticate();
+  Logger.INFO('Connected to the PostgreSQL database.');
+  await User.sync();
+  await connectRedis();
+} catch (error) {
+  Logger.ERROR('Unable to connect to the PostgreSQL database:', error);
+  throw error;
+}
 app.get('/', (req, res) => {
   return successResponse(res, HTTP_STATUS_CODE.OK, 'AUTH SERVICE is RUNNING');
 });
@@ -47,3 +58,22 @@ grpcServer.bindAsync(`0.0.0.0:${GRPC_APP_PORT}`, grpc.ServerCredentials.createIn
   }
   Logger.INFO(`gRPC server running on port: ${port}`);
 });
+
+// Graceful shutdown
+const gracefulShutdown = async () => {
+  Logger.INFO('Shutting down gracefully...');
+  try {
+    // Close the Sequelize connection
+    await sequelize.close();
+    Logger.INFO('Sequelize connection closed.');
+    await redisClient.disconnect();
+    Logger.INFO('Redis connection closed.');
+    process.exit(0);
+  } catch (error) {
+    Logger.ERROR('Error during database/redis shutdown:', error);
+    process.exit(1);
+  }
+};
+
+process.on('SIGTERM', gracefulShutdown);
+process.on('SIGINT', gracefulShutdown);
