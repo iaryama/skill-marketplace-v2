@@ -15,3 +15,6 @@ export enum HTTP_STATUS_CODE {
     METHOD_NOT_ALLOWED = 405,
     INTERNAL_SERVER_ERROR = 500
 }
+
+export const ACCESS_EXPIRY = '15m';
+export const REFRESH_EXPIRY_SEC = 3 * 24 * 3600;
