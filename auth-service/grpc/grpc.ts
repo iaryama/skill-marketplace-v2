@@ -9,7 +9,7 @@ export const grpcServer = new grpc.Server();
 grpcServer.addService(authPackage.AuthService.service, {
   GetUserById: async (call: any, callback: any) => {
     const user = await User.findByPk(call.request.id);
-    if (user) callback(null, { id: user.id, email: user.email, role: user.role });
+    if (user) callback(null, { ...user.dataValues });
     else callback({ code: grpc.status.NOT_FOUND, message: 'User not found' });
   },
 });
