@@ -1,9 +1,9 @@
 import express from "express";
 import { validationResult, body } from "express-validator";
-import { logPrefix } from "../helpers/logger";
+import { Logger } from "../helpers/logger";
 import { JWT_SECRET_KEY } from "../configuration/config";
 import admin from "firebase-admin";
-import { db } from "../../db/connectFirestore";
+import { db } from "../db/connectFirestore";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { failureResponse, successResponse } from "../helpers/responseHelpers";
@@ -70,7 +70,7 @@ export async function signUp(req: express.Request, res: express.Response) {
 
     return successResponse(res, HTTP_STATUS_CODE.OK, { uid, email, providerType });
   } catch (error: any) {
-    console.error(logPrefix(Log.ERROR) + ":", error);
+    Logger.ERROR(error);
     return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR");
   }
 }
@@ -108,7 +108,7 @@ async function loginUser(req: express.Request, res: express.Response, userType: 
     const token = jwt.sign({ uid: user.uid }, JWT_SECRET_KEY, { expiresIn: "1h" });
     return successResponse(res, HTTP_STATUS_CODE.OK, { uid: user.uid, email: user.email, token });
   } catch (error: any) {
-    console.error(logPrefix(Log.ERROR) + ":", error);
+    Logger.ERROR(error);
     return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR");
   }
 }

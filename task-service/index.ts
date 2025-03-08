@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
-import client from "./routes/api/client";
-import contractor from "./routes/api/contractor";
+import task from "./routes/api/task";
 import bodyParser from "body-parser";
 
 import { APP_PORT } from "./configuration/config";
@@ -16,13 +15,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 app.get("/", (req, res) => {
-  return successResponse(res, HTTP_STATUS_CODE.OK, "AUTH SERVICE is RUNNING");
+  return successResponse(res, HTTP_STATUS_CODE.OK, "TASK SERVICE is RUNNING");
 });
 
-app.use("/client", client);
-app.use("/contractor", contractor);
+app.use("/tasks", task);
 
 const port = Number(APP_PORT);
 app.listen(port, () => {
-  Logger.INFO("AUTH Service is running on port:" + port);
+  Logger.INFO("Task Service is running on port:" + port);
 });
