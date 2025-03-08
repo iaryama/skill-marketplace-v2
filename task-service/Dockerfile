@@ -25,7 +25,7 @@ COPY . .
 RUN npx tsc 
 
 # Expose the port
-EXPOSE 3051
+EXPOSE 3052
 
 # Run compiled JavaScript
 CMD ["node", "build/index.js"] 
