@@ -4,3 +4,4 @@ logs
 build
 package-lock.json
 yarn-error.log
+firebase-adminsdk.json
