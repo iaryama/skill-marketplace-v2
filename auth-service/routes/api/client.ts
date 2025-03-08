@@ -1,27 +1,27 @@
 import express, { Request, Response } from "express";
 import { failureResponse } from "../../helpers/responseHelpers";
-import { authenticateSuperAdmin } from "../../middleware/authenticate";
-import { signUp, login, signUpValidation } from "../../controller/partner";
+import { signUp, loginClient, signUpValidation } from "../../controller/user";
+import { HTTP_STATUS_CODE } from "../../helpers/constants";
 
 const router = express.Router();
 
 /**
- * Partner SignUp
+ * Client SignUp
  */
 router
   .route("/sign-up")
   .post(signUpValidation, signUp)
   .all((req: Request, res: Response) => {
-    return failureResponse(res, 405, "METHOD_NOT_ALLOWED");
+    return failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, "METHOD_NOT_ALLOWED");
   });
 /**
- * Partner Login
+ * Client Login
  */
 router
   .route("/login")
-  .post(login)
+  .post(loginClient)
   .all((req: Request, res: Response) => {
-    return failureResponse(res, 405, "METHOD_NOT_ALLOWED");
+    return failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, "METHOD_NOT_ALLOWED");
   });
 
 export default router;
