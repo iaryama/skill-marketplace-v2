@@ -75,7 +75,7 @@ export async function signUp(req: express.Request, res: express.Response) {
   }
 }
 
-async function loginUser(req: express.Request, res: express.Response, userType: "clients" | "contractors") {
+async function loginUser(req: express.Request, res: express.Response, userType: "client" | "contractor") {
   try {
     const authorizationHeader = req.headers.authorization;
     if (!authorizationHeader) {
@@ -114,9 +114,9 @@ async function loginUser(req: express.Request, res: express.Response, userType: 
 }
 
 export function loginClient(req: express.Request, res: express.Response) {
-  return loginUser(req, res, "clients");
+  return loginUser(req, res, "client");
 }
 
 export function loginContractor(req: express.Request, res: express.Response) {
-  return loginUser(req, res, "contractors");
+  return loginUser(req, res, "contractor");
 }
