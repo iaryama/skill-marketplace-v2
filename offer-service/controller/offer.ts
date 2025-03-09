@@ -20,7 +20,7 @@ export const createOffer = async (req: Request, res: Response) => {
     const { user_id } = res.locals;
 
     const task = await getTaskById(Number(task_id));
-    if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
+    if (!task || task.status != '') return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task Not found or No longer available');
 
     const offer = await Offer.create({ task_id, user_id, hourly_rate, currency, proposal, status: 'pending' });
 
