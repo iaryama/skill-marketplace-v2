@@ -18,12 +18,12 @@ app.use(cors());
 app.use('/offer', offer);
 
 app.get('/', (req, res) => {
-  return successResponse(res, HTTP_STATUS_CODE.OK, 'AUTH SERVICE IS RUNNING');
+  return successResponse(res, HTTP_STATUS_CODE.OK, 'OFFER SERVICE IS RUNNING');
 });
 
 const port = Number(REST_APP_PORT);
 app.listen(port, () => {
-  Logger.INFO('AUTH REST Server is running on port:' + port);
+  Logger.INFO('OFFER REST Server is running on port:' + port);
 });
 
 (async () => {

@@ -32,14 +32,14 @@ try {
   throw error;
 }
 app.get('/', (req, res) => {
-  return successResponse(res, HTTP_STATUS_CODE.OK, 'AUTH SERVICE IS RUNNING');
+  return successResponse(res, HTTP_STATUS_CODE.OK, 'SKILL SERVICE IS RUNNING');
 });
 
 app.use('/skill', skill);
 
 const port = Number(REST_APP_PORT);
 app.listen(port, () => {
-  Logger.INFO('AUTH REST Server is running on port:' + port);
+  Logger.INFO('SKILL REST Server is running on port:' + port);
 });
 
 grpcServer.bindAsync(`0.0.0.0:${GRPC_APP_PORT}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
@@ -47,7 +47,7 @@ grpcServer.bindAsync(`0.0.0.0:${GRPC_APP_PORT}`, grpc.ServerCredentials.createIn
     console.error('gRPC server failed to start:', err);
     return;
   }
-  Logger.INFO(`AUTH gRPC server running on port: ${port}`);
+  Logger.INFO(`SKILL gRPC server running on port: ${port}`);
 });
 
 // Graceful shutdown
