@@ -1,6 +1,84 @@
-version: '3.8'
-
 services:
+  auth-service:
+    container_name: auth-service
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      REST_APP_PORT: 3000
+      JWT_SECRET_KEY: RainbowColors99!
+      POSTGRES_DB: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres
+      NODE_ENV: DEVELOPMENT
+      REDIS_HOST: redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  skill-service:
+    container_name: skill-service
+    build:
+      context: ./skill-service
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3001'
+    environment:
+      REST_APP_PORT: 3001
+      JWT_SECRET_KEY: RainbowColors99!
+      POSTGRES_DB: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres
+      NODE_ENV: DEVELOPMENT
+    depends_on:
+      - postgres
+      - redis
+
+  task-service:
+    container_name: task-service
+    build:
+      context: ./task-service
+      dockerfile: Dockerfile
+    ports:
+      - '3002:3002'
+    environment:
+      REST_APP_PORT: 3002
+      JWT_SECRET_KEY: RainbowColors99!
+      POSTGRES_DB: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres
+      NODE_ENV: DEVELOPMENT
+      GRPC_APP_PORT: 5000
+    depends_on:
+      - postgres
+      - redis
+
+  offer-service:
+    container_name: offer-service
+    build:
+      context: ./offer-service
+      dockerfile: Dockerfile
+    ports:
+      - '3003:3003'
+    environment:
+      REST_APP_PORT: 3003
+      JWT_SECRET_KEY: RainbowColors99!
+      POSTGRES_DB: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres
+      NODE_ENV: DEVELOPMENT
+      TASK_GRPC_APP_HOST: task-service
+      TASK_GRPC_APP_PORT: 3002
+    depends_on:
+      - postgres
+      - redis
+
   redis:
     container_name: redis
     image: redis:7.4.2
@@ -21,99 +99,6 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  auth-service:
-    container_name: auth-service
-    build:
-      context: ./auth-service
-      dockerfile: Dockerfile
-    ports:
-      - '3003:3003'
-    environment:
-      REST_APP_PORT: 3003
-      JWT_SECRET_KEY: RainbowColors99!
-      POSTGRES_DB: postgres
-      POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: postgres
-      NODE_ENV: DEVELOPMENT
-      TASK_GRPC_APP_HOST: task-service
-      TASK_GRPC_APP_PORT: 3002
-      REDIS_HOST: redis:6379
-      GRPC_APP_PORT: 3001
-    depends_on:
-      - postgres
-      - redis
-
-  offer-service:
-    container_name: offer-service
-    build:
-      context: ./offer-service
-      dockerfile: Dockerfile
-    ports:
-      - '3004:3003'
-    environment:
-      REST_APP_PORT: 3003
-      JWT_SECRET_KEY: RainbowColors99!
-      POSTGRES_DB: postgres
-      POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: postgres
-      NODE_ENV: DEVELOPMENT
-      TASK_GRPC_APP_HOST: task-service
-      TASK_GRPC_APP_PORT: 3002
-      REDIS_HOST: redis:6379
-      GRPC_APP_PORT: 3001
-    depends_on:
-      - postgres
-      - redis
-
-  task-service:
-    container_name: task-service
-    build:
-      context: ./task-service
-      dockerfile: Dockerfile
-    ports:
-      - '3005:3003'
-      - '3002:3002'
-    environment:
-      REST_APP_PORT: 3003
-      JWT_SECRET_KEY: RainbowColors99!
-      POSTGRES_DB: postgres
-      POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: postgres
-      NODE_ENV: DEVELOPMENT
-      TASK_GRPC_APP_HOST: task-service
-      TASK_GRPC_APP_PORT: 3002
-      REDIS_HOST: redis:6379
-      GRPC_APP_PORT: 3001
-    depends_on:
-      - postgres
-      - redis
-
-  skill-service:
-    container_name: skill-service
-    build:
-      context: ./skill-service
-      dockerfile: Dockerfile
-    ports:
-      - '3006:3003'
-    environment:
-      REST_APP_PORT: 3003
-      JWT_SECRET_KEY: RainbowColors99!
-      POSTGRES_DB: postgres
-      POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: postgres
-      NODE_ENV: DEVELOPMENT
-      TASK_GRPC_APP_HOST: task-service
-      TASK_GRPC_APP_PORT: 3002
-      REDIS_HOST: redis:6379
-      GRPC_APP_PORT: 3001
-    depends_on:
-      - postgres
-      - redis
 
 volumes:
   redis_data:
