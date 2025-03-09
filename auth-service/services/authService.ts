@@ -6,7 +6,23 @@ import { JWT_SECRET_KEY } from '../configuration/config';
 import { redisClient } from '../db/connectRedis';
 import { ACCESS_EXPIRY, REFRESH_EXPIRY_SEC } from '../helpers/constants';
 
-export async function loginUser(email: string, password: string) {
+export async function loginUser(encodedCredentials: string) {
+  // Decode the Base64-encoded credentials
+  const decodedString = Buffer.from(encodedCredentials, 'base64').toString('utf-8');
+
+  // Ensure the format is correct
+  if (!decodedString.startsWith('SMP:')) {
+    throw new Error('INVALID_CREDS_FORMAT');
+  }
+
+  // Extract email and password
+  const credentials = decodedString.slice(4).split('*');
+  if (credentials.length !== 2) {
+    throw new Error('INVALID_CREDS_FORMAT');
+  }
+
+  const [email, password] = credentials;
+
   const user = await User.findOne({ where: { email } });
   if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
     throw new Error('Invalid credentials');

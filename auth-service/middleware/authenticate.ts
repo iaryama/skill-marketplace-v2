@@ -8,6 +8,9 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers['authorization'];
   if (!authHeader) return failureResponse(res, HTTP_STATUS_CODE.UNAUTHORIZED, 'No token provided');
 
+  if (!authHeader.startsWith('Bearer ')) {
+    return failureResponse(res, HTTP_STATUS_CODE.UNAUTHORIZED, 'NOT_VALID_BEARER_TOKEN');
+  }
   const token = authHeader.split(' ')[1];
   try {
     const payload = jwt.verify(token, JWT_SECRET_KEY) as { user_id: number; role: string };

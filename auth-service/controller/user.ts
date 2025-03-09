@@ -55,19 +55,9 @@ export const signUp = async (req: Request, res: Response) => {
   }
 };
 
-export const loginValidation = [
-  body('email').isEmail().notEmpty(),
-  body('password')
-    .isLength({ min: 8 })
-    .matches(/[A-Z]/)
-    .matches(/[a-z]/)
-    .matches(/\d/)
-    .matches(/[!@#$%^&*(),.?":{}|<>]/),
-];
 export const login = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
-    const tokens = await loginUser(email, password);
+    const tokens = await loginUser(req.headers.authorization);
     return successResponse(res, HTTP_STATUS_CODE.OK, tokens);
   } catch (err: any) {
     return failureResponse(res, HTTP_STATUS_CODE.UNAUTHORIZED, err.message);
