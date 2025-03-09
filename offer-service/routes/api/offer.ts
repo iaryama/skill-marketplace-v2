@@ -1,6 +1,6 @@
 import express from 'express';
 import { createOffer, getOffersByTask, acceptOffer, rejectOffer } from '../../controller/offer';
-import { authenticate } from '../../middleware/authenticate';
+import { authenticateClient, authenticateContractor } from '../../middleware/authenticate';
 import { failureResponse } from '../../helpers/responseHelpers';
 import { HTTP_STATUS_CODE } from '../../helpers/constants';
 
@@ -8,22 +8,22 @@ const router = express.Router();
 
 router
   .route('/task/:task_id/add')
-  .post(authenticate, createOffer)
+  .post(authenticateContractor, createOffer)
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 
 router
   .route('/task/:task_id')
-  .get(authenticate, getOffersByTask)
+  .get(authenticateClient, getOffersByTask)
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 
 router
   .route('/:offer_id/accept')
-  .patch(authenticate, acceptOffer)
+  .patch(authenticateClient, acceptOffer)
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 
 router
   .route('/:offer_id/reject')
-  .patch(authenticate, rejectOffer)
+  .patch(authenticateClient, rejectOffer)
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 
 export default router;
