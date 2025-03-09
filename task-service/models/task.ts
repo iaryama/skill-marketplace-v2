@@ -1,7 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../db/connectPostgres';
 import { Category } from './category';
-import { Skill } from './skill';
 
 class Task extends Model {
   public id!: number;
@@ -21,9 +20,6 @@ Task.init(
   },
   { sequelize, modelName: 'Task', tableName: 'tasks', schema: 'tasks', timestamps: true },
 );
-
-// Define many-to-many relationship
-Task.belongsToMany(Skill, { through: 'task_skills', foreignKey: 'taskId' });
 
 // Define association with Category
 Task.belongsTo(Category, { foreignKey: 'category_id' });
