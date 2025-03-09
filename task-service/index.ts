@@ -6,6 +6,7 @@ import * as grpc from '@grpc/grpc-js';
 import { Category } from './models/category';
 import { Task } from './models/task';
 import { User } from './models/user';
+import { Skill } from './models/skill';
 import { sequelize } from './db/connectPostgres';
 import { GRPC_APP_PORT, REST_APP_PORT } from './configuration/config';
 import { Logger } from './helpers/logger';
@@ -25,6 +26,7 @@ try {
   await sequelize.query('CREATE SCHEMA IF NOT EXISTS tasks;');
   await User.sync();
   await Category.sync();
+  await Skill.sync();
   await Task.sync();
 } catch (error) {
   Logger.ERROR('Unable to connect to the PostgreSQL database:', error);
