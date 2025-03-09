@@ -1,0 +1,36 @@
+syntax = "proto3";
+package offer;
+
+message OfferRequest {
+  int32 taskId = 1;
+  int32 userId = 2;
+  double price = 3;
+  string proposal = 4;
+}
+
+message OfferResponse {
+  int32 id = 1;
+  int32 taskId = 2;
+  int32 userId = 3;
+  double price = 4;
+  string proposal = 5;
+  string status = 6;
+}
+
+message OffersList {
+  repeated OfferResponse offers = 1;
+}
+
+message OfferId {
+  int32 id = 1;
+}
+
+message TaskId {
+  int32 taskId = 1;
+}
+
+service OfferService {
+  rpc CreateOffer(OfferRequest) returns (OfferResponse);
+  rpc GetOfferById(OfferId) returns (OfferResponse);
+  rpc GetOffersByTask(TaskId) returns (OffersList);
+}
