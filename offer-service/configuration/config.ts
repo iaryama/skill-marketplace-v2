@@ -7,5 +7,6 @@ export const {
   POSTGRES_HOST,
   REDIS_HOST,
   NODE_ENV,
-  GRPC_APP_PORT,
+  TASK_GRPC_APP_HOST,
+  TASK_GRPC_APP_PORT,
 } = process.env as Record<string, string>;

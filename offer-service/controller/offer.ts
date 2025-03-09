@@ -1,11 +1,15 @@
 import { Request, Response } from 'express';
 import { Offer } from '../models/offer';
+import { getTaskById } from '../services/grpcTask';
 import { failureResponse, successResponse } from '../helpers/responseHelpers';
 import { HTTP_STATUS_CODE } from '../helpers/constants';
 
 export const createOffer = async (req: Request, res: Response) => {
   const { task_id, price, proposal } = req.body;
   const { user_id } = res.locals;
+
+  const task = await getTaskById(task_id);
+  if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
 
   const offer = await Offer.create({ task_id, user_id, price, proposal, status: 'pending' });
 
@@ -14,9 +18,11 @@ export const createOffer = async (req: Request, res: Response) => {
 
 export const getOffersByTask = async (req: Request, res: Response) => {
   const { task_id } = req.params;
+  const task = await getTaskById(Number(task_id));
+  if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
   const offers = await Offer.findAll({ where: { task_id } });
 
-  return successResponse(res, HTTP_STATUS_CODE.OK, offers);
+  return successResponse(res, HTTP_STATUS_CODE.OK, { offers, task });
 };
 
 export const acceptOffer = async (req: Request, res: Response) => {
