@@ -77,7 +77,7 @@ export const updateTask = async (req: Request, res: Response) => {
     const { user_id } = res.locals as { user_id: number };
     const task = await Task.upsert({ id: task_id, ...req.body, user_id });
 
-    return successResponse(res, HTTP_STATUS_CODE.CREATED, task);
+    return successResponse(res, HTTP_STATUS_CODE.CREATED, { id: task_id, ...req.body, user_id });
   } catch (err) {
     Logger.ERROR(err);
     return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, 'Internal server error');

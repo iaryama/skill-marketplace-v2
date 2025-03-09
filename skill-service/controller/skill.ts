@@ -69,7 +69,7 @@ export const updateSkill = async (req: Request, res: Response) => {
     const { user_id } = res.locals as { user_id: number };
     const skill = await Skill.upsert({ id: skill_id, ...req.body, user_id });
 
-    return successResponse(res, HTTP_STATUS_CODE.CREATED, skill);
+    return successResponse(res, HTTP_STATUS_CODE.CREATED, { id: skill_id, ...req.body, user_id });
   } catch (err) {
     Logger.ERROR(err);
     return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, 'Internal server error');
