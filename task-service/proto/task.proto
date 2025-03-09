@@ -1,0 +1,9 @@
+syntax = "proto3";
+package task;
+
+message TaskRequest { int32 id = 1; }
+message TaskResponse { int32 id = 1; string taskName = 2; int32 categoryId = 3; }
+
+service TaskService {
+  rpc GetTaskById(TaskRequest) returns (TaskResponse);
+}

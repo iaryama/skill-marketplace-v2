@@ -67,7 +67,7 @@ export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const tokens = await loginUser(email, password);
-    res.json(tokens);
+    return successResponse(res, HTTP_STATUS_CODE.OK, tokens);
   } catch (err: any) {
     return failureResponse(res, HTTP_STATUS_CODE.UNAUTHORIZED, err.message);
   }
