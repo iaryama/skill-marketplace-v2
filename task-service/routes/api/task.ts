@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import { failureResponse } from '../../helpers/responseHelpers';
 import {
+  updateTaskValidation,
+  updateTask,
   createTask,
   getTask,
   createTaskValidation,
@@ -24,6 +26,7 @@ router
 router
   .route('/:task_id')
   .get(getTask)
+  .patch(authenticate, updateTaskValidation, updateTask)
   .all((req: Request, res: Response) => {
     return failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED');
   });

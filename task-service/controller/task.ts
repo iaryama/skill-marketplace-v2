@@ -5,6 +5,7 @@ import { HTTP_STATUS_CODE } from '../helpers/constants';
 import { Task } from '../models/task';
 import { Category } from '../models/category';
 import { Logger } from '../helpers/logger';
+import { Currency } from '../helpers/constants';
 
 export const createTaskValidation = [
   body('category_id').isInt().notEmpty(),
@@ -13,7 +14,7 @@ export const createTaskValidation = [
   body('start_date').isDate().notEmpty(),
   body('no_of_working_hours').isInt().notEmpty(),
   body('hourly_rate').isDecimal().notEmpty(),
-  body('currency').isIn(['USD', 'EUR', 'GBP']).notEmpty(),
+  body('currency').isIn(Object.values(Currency)).notEmpty(),
 ];
 
 export const createTask = async (req: Request, res: Response) => {
@@ -38,6 +39,43 @@ export const createTask = async (req: Request, res: Response) => {
       hourly_rate,
       currency,
     });
+
+    return successResponse(res, HTTP_STATUS_CODE.CREATED, task);
+  } catch (err) {
+    Logger.ERROR(err);
+    return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, 'Internal server error');
+  }
+};
+
+export const updateTaskValidation = [
+  body('category_id').optional().isInt().notEmpty(),
+  body('task_name').optional().isString().notEmpty(),
+  body('description').optional().isString().notEmpty(),
+  body('start_date').optional().isDate().notEmpty(),
+  body('no_of_working_hours').optional().isInt().notEmpty(),
+  body('hourly_rate').optional().isDecimal().notEmpty(),
+  body('currency').optional().isIn(Object.values(Currency)).notEmpty(),
+];
+
+export const updateTask = async (req: Request, res: Response) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, errors.array());
+  }
+  try {
+    const { category_id } = req.body;
+    const { task_id } = req.params;
+
+    if (category_id) {
+      // Ensure category exists
+      const category = await Category.findByPk(category_id);
+      if (!category) {
+        return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, 'Invalid category');
+      }
+    }
+
+    const { user_id } = res.locals as { user_id: number };
+    const task = await Task.upsert({ id: task_id, ...req.body, user_id });
 
     return successResponse(res, HTTP_STATUS_CODE.CREATED, task);
   } catch (err) {
