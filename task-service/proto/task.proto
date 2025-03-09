@@ -6,15 +6,28 @@ message Category {
   string name = 2;
 }
 
+enum Currency {
+  USD = 0;
+  AUD = 1;
+  SGD = 2;
+  INR = 3;
+}
+
 message TaskRequest { 
   int32 id = 1; 
 }
 
 message TaskResponse {
-  int32 id = 1; 
-  string taskName = 2;
+  int32 id = 1;
+  string task_name = 2;
   string description = 3;
-  Category category = 4;
+  string start_date = 4;
+  int32 no_of_working_hours = 5;
+  double hourly_rate = 6;
+  Currency currency = 7;
+  Category category = 8;
+  string status = 9;
+  string progress = 10;
 }
 
 service TaskService {

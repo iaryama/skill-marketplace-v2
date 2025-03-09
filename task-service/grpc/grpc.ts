@@ -10,29 +10,29 @@ const taskPackage = grpcObj.task;
 export const grpcServer = new grpc.Server();
 grpcServer.addService(taskPackage.TaskService.service, {
   GetTaskById: async (call: any, callback: any) => {
-    const task = await Task.findByPk(call.request.id, {
-      include: [
-        {
-          model: Category,
-          attributes: ['id', 'name'],
-        },
-      ],
-    });
+    try {
+      const task = await Task.findByPk(call.request.id, {
+        include: [{ model: Category, attributes: ['id', 'name'] }],
+      });
 
-    if (task) {
+      if (!task) {
+        return callback({ code: grpc.status.NOT_FOUND, message: 'Task not found' });
+      }
+
       callback(null, {
         id: task.id,
-        taskName: task.taskName,
+        task_name: task.task_name,
         description: task.description,
-        category: {
-          //@ts-ignore
-          id: task.Category.id,
-          //@ts-ignore
-          name: task.Category.name,
-        },
+        start_date: task.start_date.toISOString(),
+        no_of_working_hours: task.no_of_working_hours,
+        hourly_rate: parseFloat(task.dataValues.hourly_rate),
+        currency: task.currency,
+        category: { id: task.dataValues.category.id, name: task.dataValues.category.name },
+        status: task.dataValues.status,
+        progress: task.dataValues.progress || '',
       });
-    } else {
-      callback({ code: grpc.status.NOT_FOUND, message: 'Task not found' });
+    } catch (error) {
+      callback({ code: grpc.status.INTERNAL, message: 'Internal server error' });
     }
   },
 });

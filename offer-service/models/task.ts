@@ -5,7 +5,7 @@ import { Skill } from './skill';
 
 class Task extends Model {
   public id!: number;
-  public taskName!: string;
+  public task_name!: string;
   public category_id!: number;
   public user_id!: number;
   public description!: string;
@@ -14,7 +14,7 @@ class Task extends Model {
 Task.init(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    taskName: { type: DataTypes.STRING, allowNull: false },
+    task_name: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.STRING },
     category_id: { type: DataTypes.INTEGER, references: { model: Category, key: 'id' } },
     user_id: { type: DataTypes.INTEGER, allowNull: false },

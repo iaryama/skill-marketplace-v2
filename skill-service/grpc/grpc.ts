@@ -26,8 +26,7 @@ grpcServer.addService(skillPackage.SkillService.service, {
       hourlyRate: skill.hourly_rate,
       currency: skill.currency,
       user_id: skill.user_id,
-      //@ts-ignore
-      categoryName: skill.category ? skill.category.name : '',
+      categoryName: skill.dataValues.category ? skill.dataValues.category.name : '',
     });
   },
 });
