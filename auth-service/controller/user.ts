@@ -48,7 +48,7 @@ export const signUp = async (req: Request, res: Response) => {
 
     const newUser = await User.create(req.body);
 
-    return successResponse(res, HTTP_STATUS_CODE.CREATED, { userId: newUser.id, email: newUser.email });
+    return successResponse(res, HTTP_STATUS_CODE.CREATED, { user_id: newUser.id, email: newUser.email });
   } catch (err: any) {
     return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, err.message);
   }

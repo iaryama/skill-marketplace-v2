@@ -20,7 +20,12 @@ grpcServer.addService(skillPackage.SkillService.service, {
     callback(null, {
       id: skill.id,
       name: skill.name,
-      categoryId: skill.categoryId,
+      category_id: skill.category_id,
+      experience: skill.experience,
+      natureOfWork: skill.nature_of_work,
+      hourlyRate: skill.hourly_rate,
+      currency: skill.currency,
+      user_id: skill.user_id,
       //@ts-ignore
       categoryName: skill.category ? skill.category.name : '',
     });

@@ -3,7 +3,7 @@ package offer;
 
 message OfferRequest {
   int32 taskId = 1;
-  int32 userId = 2;
+  int32 user_id = 2;
   double price = 3;
   string proposal = 4;
 }
@@ -11,7 +11,7 @@ message OfferRequest {
 message OfferResponse {
   int32 id = 1;
   int32 taskId = 2;
-  int32 userId = 3;
+  int32 user_id = 3;
   double price = 4;
   string proposal = 5;
   string status = 6;

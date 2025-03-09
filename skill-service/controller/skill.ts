@@ -5,23 +5,30 @@ import { HTTP_STATUS_CODE } from '../helpers/constants';
 import { Skill } from '../models/skill';
 import { Category } from '../models/category';
 
-export const addSkillValidation = [body('name').isString().notEmpty(), body('categoryId').isInt().notEmpty()];
+export const addSkillValidation = [
+  body('name').isString().notEmpty(),
+  body('category_id').isInt().notEmpty(),
+  body('experience').isInt().notEmpty(),
+  body('nature_of_work').isString().notEmpty(),
+  body('hourly_rate').isFloat().notEmpty(),
+  body('currency').isString().notEmpty(),
+];
 
 export const addSkill = async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, errors.array());
   }
-  const { name, categoryId } = req.body;
+  const { name, category_id, experience, nature_of_work, hourly_rate, currency } = req.body;
 
   // Ensure category exists
-  const category = await Category.findByPk(categoryId);
+  const category = await Category.findByPk(category_id);
   if (!category) {
     return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, 'Invalid category');
   }
 
-  const { userId } = res.locals as { userId: number };
-  const skill = await Skill.create({ name, categoryId, userId });
+  const { user_id } = res.locals as { user_id: number };
+  const skill = await Skill.create({ name, category_id, user_id, experience, nature_of_work, hourly_rate, currency });
 
   return successResponse(res, HTTP_STATUS_CODE.CREATED, skill);
 };

@@ -2,16 +2,16 @@ import { Offer } from '../models/offer';
 
 export async function createOffer({
   taskId,
-  userId,
+  user_id,
   price,
   proposal,
 }: {
   taskId: number;
-  userId: number;
+  user_id: number;
   price: number;
   proposal: string;
 }) {
-  return await Offer.create({ taskId, userId, price, proposal, status: 'pending' });
+  return await Offer.create({ taskId, user_id, price, proposal, status: 'pending' });
 }
 
 export async function getOfferById(id: number) {

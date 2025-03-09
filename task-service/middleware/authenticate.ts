@@ -11,10 +11,10 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
 
   const token = authHeader.split(' ')[1];
   try {
-    const payload = jwt.verify(token, JWT_SECRET_KEY) as { userId: number; role: string };
-    res.locals.userId = payload.userId;
+    const payload = jwt.verify(token, JWT_SECRET_KEY) as { user_id: number; role: string };
+    res.locals.user_id = payload.user_id;
 
-    const user = await User.findByPk(payload.userId);
+    const user = await User.findByPk(payload.user_id);
     if (!user || user.dataValues.role !== 'client') return failureResponse(res, HTTP_STATUS_CODE.UNAUTHORIZED, 'Not Authorized User');
 
     next();
