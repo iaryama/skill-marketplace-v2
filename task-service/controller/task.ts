@@ -28,9 +28,8 @@ export const createTask = async (req: Request, res: Response) => {
       return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, 'One or more skills are invalid');
     }
     const task = await Task.create({ categoryId, taskName, description, userId });
-    for (const skillId of skillIds) {
-      await TaskSkill.create({ taskId: task.dataValues.id, skillId });
-    }
+
+    await TaskSkill.bulkCreate(skillIds.map((skillId: any) => ({ taskId: task.id, skillId })));
 
     return successResponse(res, HTTP_STATUS_CODE.CREATED, task);
   } else {
