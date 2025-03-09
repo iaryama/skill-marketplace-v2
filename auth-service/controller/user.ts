@@ -19,6 +19,7 @@ export const signUpValidation = [
     .matches(/\d/)
     .matches(/[!@#$%^&*(),.?":{}|<>]/),
   body('companyName').if(body('providerType').equals('company')).isString().notEmpty(),
+  body('role').isIn(['contractor', 'client']).notEmpty(),
   body('businessTaxNumber')
     .if(body('providerType').equals('company'))
     .matches(/^[A-Z0-9]{10}$/),
@@ -77,7 +78,7 @@ export const refreshTokenValidation = [body('refreshToken').isString().notEmpty(
 export const refresh = async (req: Request, res: Response) => {
   try {
     const tokens = await refreshToken(req.body.refreshToken);
-    res.json(tokens);
+    return successResponse(res, HTTP_STATUS_CODE.OK, tokens);
   } catch (err: any) {
     return failureResponse(res, HTTP_STATUS_CODE.ACCESS_FORBIDDEN, err.message);
   }
