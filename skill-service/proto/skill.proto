@@ -1,0 +1,9 @@
+syntax = "proto3";
+package skill;
+
+message SkillRequest { int32 id = 1; }
+message SkillResponse { int32 id = 1; string name = 2; int32 categoryId = 3; string categoryName = 4; }
+
+service SkillService {
+  rpc GetSkillById(SkillRequest) returns (SkillResponse);
+}

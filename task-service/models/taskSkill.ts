@@ -32,7 +32,7 @@ TaskSkill.init(
   {
     sequelize,
     modelName: 'TaskSkill',
-    tableName: 'task_skills',
+    tableName: 'skills_tasks',
     timestamps: false,
   },
 );

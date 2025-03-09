@@ -1,10 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import user from './routes/api/task';
+import user from './routes/api/skill';
 import bodyParser from 'body-parser';
 import * as grpc from '@grpc/grpc-js';
 import { Category } from './models/category';
-import { Task } from './models/task';
 import { User } from './models/user';
 import { Skill } from './models/skill';
 import { sequelize } from './db/connectPostgres';
@@ -30,7 +29,6 @@ try {
   await User.sync();
   await Category.sync();
   await Skill.sync();
-  await Task.sync();
 } catch (error) {
   Logger.ERROR('Unable to connect to the PostgreSQL database:', error);
   throw error;
