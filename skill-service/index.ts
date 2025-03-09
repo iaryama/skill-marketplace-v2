@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import user from './routes/api/skill';
+import skill from './routes/api/skill';
 import bodyParser from 'body-parser';
 import * as grpc from '@grpc/grpc-js';
 import { Category } from './models/category';
@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
   return successResponse(res, HTTP_STATUS_CODE.OK, 'AUTH SERVICE IS RUNNING');
 });
 
-app.use('/user', user);
+app.use('/skill', skill);
 
 const port = Number(REST_APP_PORT);
 app.listen(port, () => {
