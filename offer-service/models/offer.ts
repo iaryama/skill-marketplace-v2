@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../db/connectPostgres';
-import { User } from './user';
 
 class Offer extends Model {
   public id!: number;
@@ -15,7 +14,7 @@ Offer.init(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     task_id: { type: DataTypes.INTEGER, allowNull: false },
-    user_id: { type: DataTypes.INTEGER, references: { model: User, key: 'id' }, allowNull: false },
+    user_id: { type: DataTypes.INTEGER, allowNull: false },
     price: { type: DataTypes.FLOAT, allowNull: false },
     proposal: { type: DataTypes.TEXT, allowNull: false },
     status: { type: DataTypes.STRING, allowNull: false, defaultValue: 'pending' },
