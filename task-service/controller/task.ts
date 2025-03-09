@@ -24,7 +24,7 @@ export const createTask = async (req: Request, res: Response) => {
 };
 
 export const getTask = async (req: Request, res: Response) => {
-  const task = await Task.findByPk(req.params.taskId, {
+  const task = await Task.findByPk(req.params.task_id, {
     include: [
       {
         model: Category,

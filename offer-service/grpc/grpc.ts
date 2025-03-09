@@ -30,7 +30,7 @@ grpcServer.addService(offerPackage.OfferService.service, {
   },
   GetOffersByTask: async (call: any, callback: any) => {
     try {
-      const offers = await getOffersByTask(call.request.taskId);
+      const offers = await getOffersByTask(call.request.task_id);
       callback(null, { offers });
     } catch (error: any) {
       callback({ code: grpc.status.INTERNAL, message: error.message });

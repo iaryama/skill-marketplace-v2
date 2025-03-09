@@ -12,7 +12,7 @@ router
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 
 router
-  .route('/task/:taskId')
+  .route('/task/:task_id')
   .get(authenticate, getOffersByTask)
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 

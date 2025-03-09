@@ -23,7 +23,7 @@ Task.init(
 );
 
 // Define many-to-many relationship
-Task.belongsToMany(Skill, { through: 'task_skills', foreignKey: 'taskId' });
+Task.belongsToMany(Skill, { through: 'task_skills', foreignKey: 'task_id' });
 
 // Define association with Category
 Task.belongsTo(Category, { foreignKey: 'category_id' });

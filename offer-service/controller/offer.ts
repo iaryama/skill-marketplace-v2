@@ -4,17 +4,17 @@ import { failureResponse, successResponse } from '../helpers/responseHelpers';
 import { HTTP_STATUS_CODE } from '../helpers/constants';
 
 export const createOffer = async (req: Request, res: Response) => {
-  const { taskId, price, proposal } = req.body;
+  const { task_id, price, proposal } = req.body;
   const { user_id } = res.locals;
 
-  const offer = await Offer.create({ taskId, user_id, price, proposal, status: 'pending' });
+  const offer = await Offer.create({ task_id, user_id, price, proposal, status: 'pending' });
 
   return successResponse(res, HTTP_STATUS_CODE.CREATED, offer);
 };
 
 export const getOffersByTask = async (req: Request, res: Response) => {
-  const { taskId } = req.params;
-  const offers = await Offer.findAll({ where: { taskId } });
+  const { task_id } = req.params;
+  const offers = await Offer.findAll({ where: { task_id } });
 
   return successResponse(res, HTTP_STATUS_CODE.OK, offers);
 };
