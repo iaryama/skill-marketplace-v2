@@ -15,7 +15,7 @@ router
 
 router
   .route('/:skill_id')
-  .patch(updateSkillValidation, updateSkill)
+  .patch(authenticate, updateSkillValidation, updateSkill)
   .get(getSkill)
   .all((req: Request, res: Response) => {
     return failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED');
