@@ -6,20 +6,20 @@ RUN useradd --create-home --shell /bin/bash myuser
 # Set the working directory
 WORKDIR /app
 
+# Copy package.json
+COPY package.json ./
+
+# Copy the rest of the files
+COPY . .
+
+# Install dependencies
+RUN npm install
+
 # Change ownership of the app directory
 RUN chown -R myuser:myuser /app
 
 # Switch to the non-root user
 USER myuser
-
-# Copy package.json
-COPY package.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the files
-COPY . .
 
 # Compile TypeScript
 RUN npx tsc 
