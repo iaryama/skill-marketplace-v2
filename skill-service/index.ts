@@ -4,7 +4,6 @@ import skill from './routes/api/skill';
 import bodyParser from 'body-parser';
 import * as grpc from '@grpc/grpc-js';
 import { Category } from './models/category';
-import { User } from './models/user';
 import { Skill } from './models/skill';
 import { sequelize } from './db/connectPostgres';
 import { GRPC_APP_PORT, REST_APP_PORT } from './configuration/config';
@@ -24,7 +23,6 @@ try {
   Logger.INFO('Connected to the PostgreSQL database.');
   await sequelize.query('CREATE SCHEMA IF NOT EXISTS auth;');
   await sequelize.query('CREATE SCHEMA IF NOT EXISTS skills;');
-  await User.sync();
   await Category.sync();
   await Skill.sync();
 } catch (error) {
