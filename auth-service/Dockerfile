@@ -1,4 +1,4 @@
-FROM node:22.11.0
+FROM node:22.14.0-alpine
 
 # Create a non-root user
 RUN adduser -D myuser
@@ -13,7 +13,7 @@ RUN chown -R myuser:myuser /app
 USER myuser
 
 # Copy package.json and package-lock.json
-COPY package*.json ./
+COPY package.json ./
 
 # Install dependencies
 RUN npm install
