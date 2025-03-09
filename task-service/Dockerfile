@@ -1,7 +1,7 @@
-FROM node:22.14.0-alpine
+FROM node:22.14.0
 
 # Create a non-root user
-RUN adduser -D myuser
+RUN useradd --create-home --shell /bin/bash myuser
 
 # Set the working directory
 WORKDIR /app
@@ -12,7 +12,7 @@ RUN chown -R myuser:myuser /app
 # Switch to the non-root user
 USER myuser
 
-# Copy package.json and package-lock.json
+# Copy package.json
 COPY package.json ./
 
 # Install dependencies
