@@ -39,7 +39,14 @@ export const createTask = async (req: Request, res: Response) => {
 };
 
 export const getTask = async (req: Request, res: Response) => {
-  const task = await Task.findByPk(req.params.taskId);
+  const task = await Task.findByPk(req.params.taskId, {
+    include: [
+      {
+        model: Skill,
+        through: { attributes: [] },
+      },
+    ],
+  });
   if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
   return successResponse(res, HTTP_STATUS_CODE.OK, task);
 };
