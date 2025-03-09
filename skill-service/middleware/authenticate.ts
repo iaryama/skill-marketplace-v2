@@ -17,7 +17,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
 
     // @ts-ignore
     const user = await User.findByPk(req.userId);
-    if (!user || user.dataValues.role !== 'contractor') return failureResponse(res, HTTP_STATUS_CODE.UNAUTHORIZED, 'Not Authorized User');
+    if (!user) return failureResponse(res, HTTP_STATUS_CODE.UNAUTHORIZED, 'Not Authorized User');
 
     next();
   } catch (err) {
