@@ -1,7 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../db/connectPostgres';
 import { Category } from './category';
-import { User } from './user';
 import { Currency, NatureOfWork } from '../helpers/constants';
 
 class Skill extends Model {
@@ -19,7 +18,7 @@ class Skill extends Model {
 Skill.init(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    user_id: { type: DataTypes.INTEGER, allowNull: false, references: { model: User, key: 'id' } },
+    user_id: { type: DataTypes.INTEGER, allowNull: false },
     name: { type: DataTypes.STRING, allowNull: false },
     experience: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false },
     nature_of_work: { type: DataTypes.ENUM({ values: Object.values(NatureOfWork) }), allowNull: false },
