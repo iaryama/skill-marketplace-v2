@@ -25,7 +25,7 @@ COPY . .
 RUN npx tsc 
 
 # Expose the REST port
-EXPOSE 3000
+EXPOSE 3003
 
 # Run compiled JavaScript
 CMD ["node", "build/index.js"]

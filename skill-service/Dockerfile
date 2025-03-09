@@ -25,11 +25,7 @@ COPY . .
 RUN npx tsc 
 
 # Expose the REST port
-EXPOSE 4000
-
-# Expose the gRPC port
-EXPOSE 4001
-
+EXPOSE 3001
 
 # Run compiled JavaScript
-CMD ["node", "build/index.js"] 
+CMD ["node", "build/index.js"]

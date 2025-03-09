@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   redis:
     container_name: redis
@@ -7,5 +9,112 @@ services:
     volumes:
       - redis_data:/data
 
+  postgres:
+    container_name: postgres
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  auth-service:
+    container_name: auth-service
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    ports:
+      - '3003:3003'
+    environment:
+      REST_APP_PORT: 3003
+      JWT_SECRET_KEY: RainbowColors99!
+      POSTGRES_DB: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres
+      NODE_ENV: DEVELOPMENT
+      TASK_GRPC_APP_HOST: task-service
+      TASK_GRPC_APP_PORT: 3002
+      REDIS_HOST: redis:6379
+      GRPC_APP_PORT: 3001
+    depends_on:
+      - postgres
+      - redis
+
+  offer-service:
+    container_name: offer-service
+    build:
+      context: ./offer-service
+      dockerfile: Dockerfile
+    ports:
+      - '3004:3003'
+    environment:
+      REST_APP_PORT: 3003
+      JWT_SECRET_KEY: RainbowColors99!
+      POSTGRES_DB: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres
+      NODE_ENV: DEVELOPMENT
+      TASK_GRPC_APP_HOST: task-service
+      TASK_GRPC_APP_PORT: 3002
+      REDIS_HOST: redis:6379
+      GRPC_APP_PORT: 3001
+    depends_on:
+      - postgres
+      - redis
+
+  task-service:
+    container_name: task-service
+    build:
+      context: ./task-service
+      dockerfile: Dockerfile
+    ports:
+      - '3005:3003'
+      - '3002:3002'
+    environment:
+      REST_APP_PORT: 3003
+      JWT_SECRET_KEY: RainbowColors99!
+      POSTGRES_DB: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres
+      NODE_ENV: DEVELOPMENT
+      TASK_GRPC_APP_HOST: task-service
+      TASK_GRPC_APP_PORT: 3002
+      REDIS_HOST: redis:6379
+      GRPC_APP_PORT: 3001
+    depends_on:
+      - postgres
+      - redis
+
+  skill-service:
+    container_name: skill-service
+    build:
+      context: ./skill-service
+      dockerfile: Dockerfile
+    ports:
+      - '3006:3003'
+    environment:
+      REST_APP_PORT: 3003
+      JWT_SECRET_KEY: RainbowColors99!
+      POSTGRES_DB: postgres
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres
+      NODE_ENV: DEVELOPMENT
+      TASK_GRPC_APP_HOST: task-service
+      TASK_GRPC_APP_PORT: 3002
+      REDIS_HOST: redis:6379
+      GRPC_APP_PORT: 3001
+    depends_on:
+      - postgres
+      - redis
+
 volumes:
   redis_data:
+  postgres_data:
