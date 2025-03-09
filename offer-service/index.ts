@@ -48,6 +48,7 @@ export const taskClient = new taskPackage.TaskService(`${TASK_GRPC_APP_HOST}:${T
   try {
     await sequelize.authenticate();
     Logger.INFO('Connected to PostgreSQL database.');
+    await sequelize.query('CREATE SCHEMA IF NOT EXISTS tasks;');
     await sequelize.sync();
   } catch (error) {
     Logger.ERROR('Unable to connect to PostgreSQL:', error);

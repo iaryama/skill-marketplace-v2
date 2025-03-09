@@ -19,8 +19,8 @@ try {
   // Test the database connection
   await sequelize.authenticate();
   Logger.INFO('Connected to the PostgreSQL database.');
-  await sequelize.query('CREATE SCHEMA IF NOT EXISTS auth;');
   await sequelize.query('CREATE SCHEMA IF NOT EXISTS skills;');
+  await sequelize.query('CREATE SCHEMA IF NOT EXISTS skills_tasks;');
   await Category.sync();
   await Skill.sync();
 } catch (error) {
