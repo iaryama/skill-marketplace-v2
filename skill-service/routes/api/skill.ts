@@ -1,18 +1,24 @@
 import express, { Request, Response } from 'express';
 import { failureResponse } from '../../helpers/responseHelpers';
-import { addSkill, getSkill, addSkillValidation } from '../../controller/skill';
+import { addSkill, getSkill, addSkillValidation, updateSkill, updateSkillValidation } from '../../controller/skill';
 import { authenticate } from '../../middleware/authenticate';
 import { HTTP_STATUS_CODE } from '../../helpers/constants';
 
 const router = express.Router();
 
 router
-  .route('/')
+  .route('/add')
   .post(authenticate, addSkillValidation, addSkill)
   .all((req: Request, res: Response) => {
     return failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED');
   });
 
+router
+  .route('/:skillId')
+  .patch(updateSkillValidation, updateSkill)
+  .all((req: Request, res: Response) => {
+    return failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED');
+  });
 router
   .route('/:skillId')
   .get(getSkill)

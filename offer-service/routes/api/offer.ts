@@ -7,7 +7,7 @@ import { HTTP_STATUS_CODE } from '../../helpers/constants';
 const router = express.Router();
 
 router
-  .route('/')
+  .route('/add')
   .post(authenticate, createOffer)
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 
