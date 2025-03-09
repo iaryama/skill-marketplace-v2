@@ -35,3 +35,53 @@ export const getTask = async (req: Request, res: Response) => {
   if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
   return successResponse(res, HTTP_STATUS_CODE.OK, task);
 };
+
+export const acceptTaskCompletion = async (req: Request, res: Response) => {
+  const { task_id } = req.params;
+
+  const task = await Task.findByPk(task_id);
+  if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
+
+  task.dataValues.status = 'completed';
+  await task.save();
+
+  return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task completion accepted' });
+};
+
+export const rejectTaskCompletion = async (req: Request, res: Response) => {
+  const { task_id } = req.params;
+
+  const task = await Task.findByPk(task_id);
+  if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
+
+  task.dataValues.status = 'in-progress';
+  await task.save();
+
+  return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task completion rejected' });
+};
+
+export const updateTaskProgress = async (req: Request, res: Response) => {
+  const { task_id } = req.params;
+  const { description } = req.body;
+
+  const task = await Task.findByPk(task_id);
+  if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
+
+  const timestamp = new Date().toISOString();
+  task.dataValues.progress = `${task.dataValues.progress || ''}\n[${timestamp}] ${description}`;
+  await task.save();
+
+  return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task progress updated' });
+};
+
+export const completeTask = async (req: Request, res: Response) => {
+  const { task_id } = req.params;
+
+  const task = await Task.findByPk(task_id);
+  if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
+
+  task.dataValues.status = 'completed';
+  await task.save();
+
+  return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task marked as completed' });
+};
