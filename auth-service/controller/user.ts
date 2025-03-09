@@ -6,6 +6,7 @@ import { loginUser, refreshToken } from '../services/authService';
 import { redisClient } from '../db/connectRedis';
 import { User } from '../models/user';
 import bcrypt from 'bcrypt';
+import { Logger } from '../helpers/logger';
 
 export const signUpValidation = [
   body('providerType').isIn(['individual', 'company']).notEmpty(),
@@ -51,6 +52,7 @@ export const signUp = async (req: Request, res: Response) => {
 
     return successResponse(res, HTTP_STATUS_CODE.CREATED, { user_id: newUser.id, email: newUser.email });
   } catch (err: any) {
+    Logger.ERROR(err.message);
     return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, err.message);
   }
 };
@@ -60,6 +62,7 @@ export const login = async (req: Request, res: Response) => {
     const tokens = await loginUser(req.headers.authorization);
     return successResponse(res, HTTP_STATUS_CODE.OK, tokens);
   } catch (err: any) {
+    Logger.ERROR(err.message);
     return failureResponse(res, HTTP_STATUS_CODE.UNAUTHORIZED, err.message);
   }
 };
@@ -70,11 +73,17 @@ export const refresh = async (req: Request, res: Response) => {
     const tokens = await refreshToken(req.body.refreshToken);
     return successResponse(res, HTTP_STATUS_CODE.OK, tokens);
   } catch (err: any) {
+    Logger.ERROR(err.message);
     return failureResponse(res, HTTP_STATUS_CODE.ACCESS_FORBIDDEN, err.message);
   }
 };
 
 export const logout = async (req: Request, res: Response) => {
-  await redisClient.del(req.body.refreshToken);
-  return successResponse(res, HTTP_STATUS_CODE.OK, 'Logged out');
+  try {
+    await redisClient.del(req.body.refreshToken);
+    return successResponse(res, HTTP_STATUS_CODE.OK, 'Logged out');
+  } catch (err: any) {
+    Logger.ERROR(err.message);
+    return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, err.message);
+  }
 };

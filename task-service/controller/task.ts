@@ -4,6 +4,7 @@ import { failureResponse, successResponse } from '../helpers/responseHelpers';
 import { HTTP_STATUS_CODE } from '../helpers/constants';
 import { Task } from '../models/task';
 import { Category } from '../models/category';
+import { Logger } from '../helpers/logger';
 
 export const createTaskValidation = [
   body('category_id').isInt().notEmpty(),
@@ -20,76 +21,115 @@ export const createTask = async (req: Request, res: Response) => {
   if (!errors.isEmpty()) {
     return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, errors.array());
   }
-  const { user_id } = res.locals;
-  const category = Category.findByPk(req.body.category_id);
-  if (!category) {
-    return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, 'Category not found');
-  }
-  const { category_id, task_name, description, start_date, no_of_working_hours, hourly_rate, currency } = req.body;
-  const task = await Task.create({ category_id, task_name, description, user_id, start_date, no_of_working_hours, hourly_rate, currency });
+  try {
+    const { user_id } = res.locals;
+    const category = Category.findByPk(req.body.category_id);
+    if (!category) {
+      return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, 'Category not found');
+    }
+    const { category_id, task_name, description, start_date, no_of_working_hours, hourly_rate, currency } = req.body;
+    const task = await Task.create({
+      category_id,
+      task_name,
+      description,
+      user_id,
+      start_date,
+      no_of_working_hours,
+      hourly_rate,
+      currency,
+    });
 
-  return successResponse(res, HTTP_STATUS_CODE.CREATED, task);
+    return successResponse(res, HTTP_STATUS_CODE.CREATED, task);
+  } catch (err) {
+    Logger.ERROR(err);
+    return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, 'Internal server error');
+  }
 };
 
 export const getTask = async (req: Request, res: Response) => {
-  const task = await Task.findByPk(req.params.task_id, {
-    include: [
-      {
-        model: Category,
-        attributes: ['id', 'name'],
-      },
-    ],
-  });
-  if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
-  return successResponse(res, HTTP_STATUS_CODE.OK, task);
+  try {
+    const task = await Task.findByPk(req.params.task_id, {
+      include: [
+        {
+          model: Category,
+          attributes: ['id', 'name'],
+        },
+      ],
+    });
+    if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
+    return successResponse(res, HTTP_STATUS_CODE.OK, task);
+  } catch (err) {
+    Logger.ERROR(err);
+    return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, 'Internal server error');
+  }
 };
 
 export const acceptTaskCompletion = async (req: Request, res: Response) => {
-  const { task_id } = req.params;
+  try {
+    const { task_id } = req.params;
 
-  const task = await Task.findByPk(task_id);
-  if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
+    const task = await Task.findByPk(task_id);
+    if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
 
-  task.dataValues.status = 'completed';
-  await task.save();
+    task.dataValues.status = 'completed';
+    await task.save();
 
-  return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task completion accepted' });
+    return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task completion accepted' });
+  } catch (err) {
+    Logger.ERROR(err);
+    return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, 'Internal server error');
+  }
 };
 
 export const rejectTaskCompletion = async (req: Request, res: Response) => {
-  const { task_id } = req.params;
+  try {
+    const { task_id } = req.params;
 
-  const task = await Task.findByPk(task_id);
-  if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
+    const task = await Task.findByPk(task_id);
+    if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
 
-  task.dataValues.status = 'in-progress';
-  await task.save();
+    task.dataValues.status = 'in-progress';
+    await task.save();
 
-  return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task completion rejected' });
+    return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task completion rejected' });
+  } catch (err) {
+    Logger.ERROR(err);
+    return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, 'Internal server error');
+  }
 };
 
 export const updateTaskProgress = async (req: Request, res: Response) => {
-  const { task_id } = req.params;
-  const { description } = req.body;
+  try {
+    const { task_id } = req.params;
+    const { description } = req.body;
 
-  const task = await Task.findByPk(task_id);
-  if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
+    const task = await Task.findByPk(task_id);
+    if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
 
-  const timestamp = new Date().toISOString();
-  task.dataValues.progress = `${task.dataValues.progress || ''}\n[${timestamp}] ${description}`;
-  await task.save();
+    const timestamp = new Date().toISOString();
+    task.dataValues.progress = `${task.dataValues.progress || ''}\n[${timestamp}] ${description}`;
+    await task.save();
 
-  return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task progress updated' });
+    return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task progress updated' });
+  } catch (err) {
+    Logger.ERROR(err);
+    return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, 'Internal server error');
+  }
 };
 
 export const completeTask = async (req: Request, res: Response) => {
-  const { task_id } = req.params;
+  try {
+    const { task_id } = req.params;
 
-  const task = await Task.findByPk(task_id);
-  if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
+    const task = await Task.findByPk(task_id);
+    if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
 
-  task.dataValues.status = 'completed';
-  await task.save();
+    task.dataValues.status = 'completed';
+    await task.save();
 
-  return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task marked as completed' });
+    return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task marked as completed' });
+  } catch (err) {
+    Logger.ERROR(err);
+    return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, 'Internal server error');
+  }
 };

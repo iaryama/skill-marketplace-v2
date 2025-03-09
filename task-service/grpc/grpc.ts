@@ -2,6 +2,7 @@ import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import { Task } from '../models/task';
 import { Category } from '../models/category';
+import { Logger } from '../helpers/logger';
 
 const packageDef = protoLoader.loadSync('proto/task.proto', {});
 const grpcObj = grpc.loadPackageDefinition(packageDef) as any;
@@ -32,6 +33,7 @@ grpcServer.addService(taskPackage.TaskService.service, {
         progress: task.dataValues.progress || '',
       });
     } catch (error) {
+      Logger.ERROR(error);
       callback({ code: grpc.status.INTERNAL, message: 'Internal server error' });
     }
   },
