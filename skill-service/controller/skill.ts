@@ -41,7 +41,7 @@ export const addSkill = async (req: Request, res: Response) => {
 };
 
 export const updateSkillValidation = [
-  param('skillId').isInt().notEmpty(),
+  param('skill_id').isInt().notEmpty(),
   body('name').optional().isString().notEmpty(),
   body('category_id').optional().isInt().notEmpty(),
   body('experience').optional().isInt().notEmpty(),
@@ -56,7 +56,7 @@ export const updateSkill = async (req: Request, res: Response) => {
   }
   try {
     const { category_id } = req.body;
-    const { skillId } = req.params;
+    const { skill_id } = req.params;
 
     if (category_id) {
       // Ensure category exists
@@ -67,7 +67,7 @@ export const updateSkill = async (req: Request, res: Response) => {
     }
 
     const { user_id } = res.locals as { user_id: number };
-    const skill = await Skill.upsert({ id: skillId, ...req.body, user_id });
+    const skill = await Skill.upsert({ id: skill_id, ...req.body, user_id });
 
     return successResponse(res, HTTP_STATUS_CODE.CREATED, skill);
   } catch (err) {
@@ -78,7 +78,7 @@ export const updateSkill = async (req: Request, res: Response) => {
 
 export const getSkill = async (req: Request, res: Response) => {
   try {
-    const skill = await Skill.findByPk(req.params.skillId, {
+    const skill = await Skill.findByPk(req.params.skill_id, {
       include: [{ model: Category, as: 'category', attributes: ['name'] }],
     });
     if (!skill) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Skill not found');

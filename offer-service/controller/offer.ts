@@ -7,10 +7,11 @@ import { Logger } from '../helpers/logger';
 
 export const createOffer = async (req: Request, res: Response) => {
   try {
-    const { task_id, price, proposal } = req.body;
+    const { task_id } = req.params;
+    const { price, proposal } = req.body;
     const { user_id } = res.locals;
 
-    const task = await getTaskById(task_id);
+    const task = await getTaskById(Number(task_id));
     if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
 
     const offer = await Offer.create({ task_id, user_id, price, proposal, status: 'pending' });
