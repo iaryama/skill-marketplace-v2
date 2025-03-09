@@ -5,8 +5,7 @@ import { HTTP_STATUS_CODE } from '../helpers/constants';
 
 export const createOffer = async (req: Request, res: Response) => {
   const { taskId, price, proposal } = req.body;
-  //@ts-ignore
-  const userId = req.userId;
+  const { userId } = res.locals;
 
   const offer = await Offer.create({ taskId, userId, price, proposal, status: 'pending' });
 

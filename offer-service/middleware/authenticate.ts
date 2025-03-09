@@ -10,9 +10,8 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
 
   const token = authHeader.split(' ')[1];
   try {
-    const payload = jwt.verify(token, JWT_SECRET_KEY);
-    // @ts-ignore
-    req.uid = payload;
+    const payload = jwt.verify(token, JWT_SECRET_KEY) as { userId: number; role: string };
+    res.locals.userId = payload.userId;
     next();
   } catch (err) {
     return failureResponse(res, HTTP_STATUS_CODE.UNAUTHORIZED, 'Invalid token');
