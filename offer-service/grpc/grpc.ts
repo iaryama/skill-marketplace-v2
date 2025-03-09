@@ -12,7 +12,7 @@ grpcServer.addService(offerPackage.OfferService.service, {
   CreateOffer: async (call: any, callback: any) => {
     try {
       const offer = await createOffer(call.request);
-      callback(null, { success: true, offerId: offer.id });
+      callback(null, { success: true, offer_id: offer.id });
     } catch (error: any) {
       callback({ code: grpc.status.INTERNAL, message: error.message });
     }

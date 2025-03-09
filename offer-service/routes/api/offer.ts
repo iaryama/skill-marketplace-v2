@@ -17,12 +17,12 @@ router
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 
 router
-  .route('/:offerId/accept')
+  .route('/:offer_id/accept')
   .patch(authenticate, acceptOffer)
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 
 router
-  .route('/:offerId/reject')
+  .route('/:offer_id/reject')
   .patch(authenticate, rejectOffer)
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 

@@ -20,9 +20,9 @@ export const getOffersByTask = async (req: Request, res: Response) => {
 };
 
 export const acceptOffer = async (req: Request, res: Response) => {
-  const { offerId } = req.params;
+  const { offer_id } = req.params;
 
-  const offer = await Offer.findByPk(offerId);
+  const offer = await Offer.findByPk(offer_id);
   if (!offer) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Offer not found');
 
   offer.status = 'accepted';
@@ -32,9 +32,9 @@ export const acceptOffer = async (req: Request, res: Response) => {
 };
 
 export const rejectOffer = async (req: Request, res: Response) => {
-  const { offerId } = req.params;
+  const { offer_id } = req.params;
 
-  const offer = await Offer.findByPk(offerId);
+  const offer = await Offer.findByPk(offer_id);
   if (!offer) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Offer not found');
 
   offer.status = 'rejected';
