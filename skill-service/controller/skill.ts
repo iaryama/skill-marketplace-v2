@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import { failureResponse, successResponse } from '../helpers/responseHelpers';
 import { HTTP_STATUS_CODE } from '../helpers/constants';
 import { Skill } from '../models/skill';
-import { UserSkill } from '../models/userSkill';
 import { Category } from '../models/category';
 
 export const addSkillValidation = [body('name').isString().notEmpty(), body('categoryId').isInt().notEmpty()];
@@ -21,13 +20,9 @@ export const addSkill = async (req: Request, res: Response) => {
     return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, 'Invalid category');
   }
 
-  const skill = await Skill.create({ name, categoryId });
+  const { userId } = res.locals as { userId: number };
+  const skill = await Skill.create({ name, categoryId, userId });
 
-  //@ts-ignore
-  if (req.role === 'contractor') {
-    //@ts-ignore
-    await UserSkill.create({ userId: req.userId, skillId: skill.id });
-  }
   return successResponse(res, HTTP_STATUS_CODE.CREATED, skill);
 };
 
