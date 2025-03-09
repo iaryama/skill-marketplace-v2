@@ -14,6 +14,8 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
     const payload = jwt.verify(token, JWT_SECRET_KEY);
     // @ts-ignore
     req.userId = payload.userId;
+    //@ts-ignore
+    req.role = payload.role;
 
     // @ts-ignore
     const user = await User.findByPk(req.userId);

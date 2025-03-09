@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { failureResponse, successResponse } from '../helpers/responseHelpers';
 import { HTTP_STATUS_CODE } from '../helpers/constants';
 import { Skill } from '../models/skill';
+import { UserSkill } from '../models/userSkill';
 import { Category } from '../models/category';
 
 export const addSkillValidation = [body('name').isString().notEmpty(), body('categoryId').isInt().notEmpty()];
@@ -12,8 +13,21 @@ export const addSkill = async (req: Request, res: Response) => {
   if (!errors.isEmpty()) {
     return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, errors.array());
   }
+  const { name, categoryId } = req.body;
 
-  const skill = await Skill.create(req.body);
+  // Ensure category exists
+  const category = await Category.findByPk(categoryId);
+  if (!category) {
+    return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, 'Invalid category');
+  }
+
+  const skill = await Skill.create({ name, categoryId });
+
+  //@ts-ignore
+  if (req.role === 'contractor') {
+    //@ts-ignore
+    await UserSkill.create({ userId: req.userId, skillId: skill.id });
+  }
   return successResponse(res, HTTP_STATUS_CODE.CREATED, skill);
 };
 
