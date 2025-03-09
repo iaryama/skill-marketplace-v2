@@ -15,6 +15,9 @@ USER myuser
 # Copy package.json
 COPY package.json ./
 
+# Ensure TypeScript is installed
+RUN npm install -g typescript
+
 # Install dependencies
 RUN npm install
 
