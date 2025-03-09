@@ -1,8 +1,0 @@
-syntax = "proto3";
-package auth;
-message UserId { int32 id = 1; }
-message UserResponse { int32 id = 1; string email = 2; string role = 3; }
-
-service AuthService {
-  rpc GetUserById(UserId) returns (UserResponse);
-}

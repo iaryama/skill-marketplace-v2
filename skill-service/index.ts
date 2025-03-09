@@ -2,15 +2,13 @@ import express from 'express';
 import cors from 'cors';
 import skill from './routes/api/skill';
 import bodyParser from 'body-parser';
-import * as grpc from '@grpc/grpc-js';
 import { Category } from './models/category';
 import { Skill } from './models/skill';
 import { sequelize } from './db/connectPostgres';
-import { GRPC_APP_PORT, REST_APP_PORT } from './configuration/config';
+import { REST_APP_PORT } from './configuration/config';
 import { Logger } from './helpers/logger';
 import { successResponse } from './helpers/responseHelpers';
 import { HTTP_STATUS_CODE } from './helpers/constants';
-import { grpcServer } from './grpc/grpc';
 
 const app = express();
 app.use(bodyParser.json());
@@ -38,14 +36,6 @@ app.use('/skill', skill);
 const port = Number(REST_APP_PORT);
 app.listen(port, () => {
   Logger.INFO('SKILL REST Server is running on port:' + port);
-});
-
-grpcServer.bindAsync(`0.0.0.0:${GRPC_APP_PORT}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
-  if (err) {
-    console.error('gRPC server failed to start:', err);
-    return;
-  }
-  Logger.INFO(`SKILL gRPC server running on port: ${port}`);
 });
 
 // Graceful shutdown
