@@ -45,6 +45,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - '3002:3002'
+      - '5000:5000'
     environment:
       REST_APP_PORT: 3002
       JWT_SECRET_KEY: RainbowColors99!
