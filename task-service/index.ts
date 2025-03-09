@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import user from './routes/api/task';
+import task from './routes/api/task';
 import bodyParser from 'body-parser';
 import * as grpc from '@grpc/grpc-js';
 import { Category } from './models/category';
@@ -32,11 +32,10 @@ try {
   Logger.ERROR('Unable to connect to the PostgreSQL database:', error);
   throw error;
 }
+app.use('/task', task);
 app.get('/', (req, res) => {
   return successResponse(res, HTTP_STATUS_CODE.OK, 'AUTH SERVICE IS RUNNING');
 });
-
-app.use('/user', user);
 
 const port = Number(REST_APP_PORT);
 app.listen(port, () => {
