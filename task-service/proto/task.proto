@@ -1,14 +1,28 @@
 syntax = "proto3";
 package task;
 
+message Category {
+  int32 id = 1;
+  string name = 2;
+}
 
+message Skill {
+  int32 id = 1;
+  string name = 2;
+}
 
-message TaskRequest { int32 id = 1; }
-message TaskResponse { int32 id = 1; string title = 2; int32 categoryId = 3; string description = 4; repeated int32 skillIds = 5; }
+message TaskRequest { 
+  int32 id = 1; 
+}
+
+message TaskResponse {
+  int32 id = 1; 
+  string taskName = 2;
+  string description = 3;
+  Category category = 4;
+  repeated Skill skills = 5;
+}
 
 service TaskService {
   rpc GetTaskById(TaskRequest) returns (TaskResponse);
 }
-
-
-

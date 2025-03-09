@@ -5,6 +5,7 @@ import { HTTP_STATUS_CODE } from '../helpers/constants';
 import { Task } from '../models/task';
 import { TaskSkill } from '../models/taskSkill';
 import { Skill } from '../models/skill';
+import { Category } from '../models/category';
 
 export const createTaskValidation = [
   body('categoryId').isInt().notEmpty(),
@@ -43,6 +44,10 @@ export const getTask = async (req: Request, res: Response) => {
       {
         model: Skill,
         through: { attributes: [] },
+      },
+      {
+        model: Category,
+        attributes: ['id', 'name'],
       },
     ],
   });
