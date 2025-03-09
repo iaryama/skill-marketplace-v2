@@ -74,7 +74,7 @@ services:
       POSTGRES_HOST: postgres
       NODE_ENV: DEVELOPMENT
       TASK_GRPC_APP_HOST: task-service
-      TASK_GRPC_APP_PORT: 3002
+      TASK_GRPC_APP_PORT: 5000
     depends_on:
       - postgres
       - redis
