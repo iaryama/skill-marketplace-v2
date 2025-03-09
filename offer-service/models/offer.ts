@@ -22,6 +22,4 @@ Offer.init(
   { sequelize, modelName: 'Offer', tableName: 'offers', schema: 'tasks', timestamps: true },
 );
 
-Offer.belongsTo(User, { foreignKey: 'user_id' });
-
 export { Offer };
