@@ -1,0 +1,141 @@
+TO_DO: ZKProver In Future
+1. Connection Pooling: Manages database connections with min/max limits, releases idle ones, retries if needed, and follows a lazy connection strategy—expanding up to max only when required.
+
+2. Idempotency in Kafka:  
+   - Producer: Enabled via enable.idempotence=true, ensuring the same message isn’t duplicated.  
+   - Consumer: Uses offset tracking (commit mechanism) to avoid reprocessing messages.
+
+3. SAGA vs 2PC:  
+   - SAGA: Distributed transactions using either Choreography (event-driven) or Orchestration (centralized controller).  
+   - 2PC: Strong consistency using Prepare & Commit/Rollback phases but locks resources.
+
+4. Threads & Processes: Threads are part of a process and share memory; multiple cores enable concurrent execution, typically running two threads per core.
+
+5. Cloudflare Workers: Uses isolates for lightweight, fast execution, allowing multiple processes to run concurrently within an isolate.
+
+6. SOLID in :  
+   - S: Single Responsibility – UserService handles user logic separately.  
+   - O: Open-Closed – Use interfaces for extending behavior.  
+   - L: Liskov – Substitutable derived classes.  
+   - I: Interface Segregation – Separate interfaces for specific needs.  
+   - D: Dependency Inversion – Inject dependencies instead of hardcoding.
+
+7. Singleton vs Factory in :  
+   - Singleton: Ensures one instance of a class (Database.getInstance()).  
+   - Factory: Creates objects dynamically (UserFactory.createUser(type)).
+
+ SOLID Principles in  (Examples)
+
+1. Single Responsibility Principle (SRP)
+   - A class should have only one reason to change.
+   
+   class UserRepository {
+       save(user: User) { /* Save user to DB */ }
+   }
+   class EmailService {
+       sendWelcomeEmail(user: User) { /* Send email */ }
+   }
+   
+
+2. Open-Closed Principle (OCP)
+   - A class should be open for extension but closed for modification.
+   
+   interface PaymentProcessor {
+       process(amount: number): void;
+   }
+   class PayPal implements PaymentProcessor {
+       process(amount: number) { console.log(Paying ${amount} via PayPal); }
+   }
+   class Stripe implements PaymentProcessor {
+       process(amount: number) { console.log(Paying ${amount} via Stripe); }
+   }
+   
+
+3. Liskov Substitution Principle (LSP)
+   - Subclasses should be replaceable without altering program correctness.
+   
+   class Bird { fly() { console.log("Flying!"); } }
+   class Penguin extends Bird { fly() { throw new Error("Penguins can't fly!"); } } // Violates LSP
+   
+
+4. Interface Segregation Principle (ISP)
+   - Clients should not depend on interfaces they do not use.
+   
+   interface Printer {
+       print(): void;
+   }
+   interface Scanner {
+       scan(): void;
+   }
+   class AllInOnePrinter implements Printer, Scanner {
+       print() { console.log("Printing..."); }
+       scan() { console.log("Scanning..."); }
+   }
+   
+
+5. Dependency Inversion Principle (DIP)
+   - High-level modules should not depend on low-level modules. Both should depend on abstractions.
+   
+   interface Logger {
+       log(message: string): void;
+   }
+   class ConsoleLogger implements Logger {
+       log(message: string) { console.log(message); }
+   }
+   class App {
+       constructor(private logger: Logger) {}
+       run() { this.logger.log("App running..."); }
+   }
+   
+
+---
+
+State Machine: A system can be in only one state at a time.
+
+ SAGA vs 2PC vs 3PC vs CQRS
+
+ SAGA Pattern
+- Choreography: Each service listens to events and reacts accordingly.
+  
+  class PaymentService {
+      processPayment(orderId: string) { console.log("Payment processed for", orderId); }
+  }
+  class OrderService {
+      placeOrder() { console.log("Order placed, triggering Payment event"); }
+  }
+  
+
+- Orchestration: A central coordinator handles steps.
+  
+  class SagaOrchestrator {
+      execute() {
+          console.log("Order placed");
+          console.log("Payment processed");
+          console.log("Shipment started");
+      }
+  }
+  
+
+ 2 Phase Commit (2PC)
+- Steps:
+  1. Prepare: Coordinator asks all participants if they can commit.
+  2. Commit/Rollback: If all say "yes", commit; otherwise, rollback.
+
+- Limitation: Holds locks during prepare phase → reduces concurrency.
+
+# 3 Phase Commit (3PC)
+- Avoids 2PC locking by adding a Pre-Commit phase.
+  1. CanCommit – Ask if they can commit.
+  2. PreCommit – Temporary commit (safe rollback).
+  3. Commit/Rollback – Final decision.
+
+ CQRS (Command Query Responsibility Segregation)
+- Separate write (commands) and read (queries) models.
+  
+  class UserCommandService {
+      createUser(name: string) { console.log(User ${name} created.); }
+  }
+  class UserQueryService {
+      getUser(id: string) { console.log(Fetching user ${id}); }
+  }
+  
