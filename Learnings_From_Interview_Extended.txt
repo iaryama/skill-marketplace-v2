@@ -3,7 +3,15 @@ TO_DO: ZKProver In Future
 
 2. Idempotency in Kafka:  
    - Producer: Enabled via enable.idempotence=true, ensuring the same message isn’t duplicated.  
+   Producer Idempotency
+   Kafka provides idempotent producers, which means even if a producer retries a message due to network issues or timeouts, the broker will not store duplicate messages.
+   How It Works
+   Each Kafka producer is assigned a Producer ID (PID).
+   Each message batch has a sequence number.
+   The broker keeps track of the last successfully processed sequence number for a given producer.
+If the producer resends a message with the same PID and sequence number, Kafka discards the duplicate.
    - Consumer: Uses offset tracking (commit mechanism) to avoid reprocessing messages.
+   Need to use redis or soemthing to prevent reading already read message
 
 3. SAGA vs 2PC:  
    - SAGA: Distributed transactions using either Choreography (event-driven) or Orchestration (centralized controller).  
