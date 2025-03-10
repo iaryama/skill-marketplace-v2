@@ -22,12 +22,13 @@ message TaskResponse {
   string task_name = 2;
   string description = 3;
   string start_date = 4;
-  double no_of_working_hours = 5;
-  double hourly_rate = 6;
-  Currency currency = 7;
-  Category category = 8;
-  string status = 9;
-  string progress = 10;
+  int32 no_of_working_hours = 5;
+  int32 user_id = 6;
+  float hourly_rate = 7;
+  Currency currency = 8;
+  Category category = 9;
+  string status = 10;
+  string progress = 11;
 }
 
 service TaskService {
