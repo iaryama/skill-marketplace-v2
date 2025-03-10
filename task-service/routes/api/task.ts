@@ -6,8 +6,7 @@ import {
   createTask,
   getTask,
   createTaskValidation,
-  acceptTaskCompletion,
-  rejectTaskCompletion,
+  rejectTask,
   updateTaskProgress,
   completeTask,
 } from '../../controller/task';
@@ -32,13 +31,8 @@ router
   });
 
 router
-  .route('/:task_id/accept-completion')
-  .patch(authenticate, acceptTaskCompletion)
-  .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
-
-router
   .route('/:task_id/reject-completion')
-  .patch(authenticate, rejectTaskCompletion)
+  .patch(authenticate, rejectTask)
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 
 router
@@ -47,7 +41,7 @@ router
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 
 router
-  .route('/:task_id/complete')
+  .route('/:task_id/accept-completion')
   .patch(authenticate, completeTask)
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 

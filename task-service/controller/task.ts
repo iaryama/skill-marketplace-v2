@@ -102,24 +102,7 @@ export const getTask = async (req: Request, res: Response) => {
   }
 };
 
-export const acceptTaskCompletion = async (req: Request, res: Response) => {
-  try {
-    const { task_id } = req.params;
-
-    const task = await Task.findByPk(task_id);
-    if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
-
-    task.dataValues.status = 'completed';
-    await task.save();
-
-    return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task completion accepted' });
-  } catch (err) {
-    Logger.ERROR(err);
-    return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, 'Internal server error');
-  }
-};
-
-export const rejectTaskCompletion = async (req: Request, res: Response) => {
+export const rejectTask = async (req: Request, res: Response) => {
   try {
     const { task_id } = req.params;
 
