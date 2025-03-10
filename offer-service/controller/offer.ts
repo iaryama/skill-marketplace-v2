@@ -53,7 +53,8 @@ export const acceptOffer = async (req: Request, res: Response) => {
     if (!offer) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Offer not found');
     const task = await getTaskById(offer.task_id);
     if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
-    if (task.id !== offer.task_id) return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, 'You are not the owner of this task');
+    if (task.user_id !== res.locals.user_id)
+      return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, 'You are not the owner of this task');
 
     offer.status = 'accepted';
     await offer.save();
@@ -73,7 +74,8 @@ export const rejectOffer = async (req: Request, res: Response) => {
     if (!offer) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Offer not found');
     const task = await getTaskById(offer.task_id);
     if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
-    if (task.id !== offer.task_id) return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, 'You are not the owner of this task');
+    if (task.user_id !== res.locals.user_id)
+      return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, 'You are not the owner of this task');
 
     offer.status = 'rejected';
     await offer.save();
