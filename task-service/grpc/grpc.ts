@@ -20,17 +20,22 @@ grpcServer.addService(taskPackage.TaskService.service, {
         return callback({ code: grpc.status.NOT_FOUND, message: 'Task not found' });
       }
 
+      console.log(task.dataValues);
+
       callback(null, {
-        id: task.id,
-        task_name: task.task_name,
-        description: task.description,
-        start_date: task.start_date.toISOString(),
-        no_of_working_hours: task.no_of_working_hours,
-        hourly_rate: parseFloat(task.dataValues.hourly_rate),
-        currency: task.currency,
-        user_id: task.user_id,
-        category: { id: task.dataValues.Category.id, name: task.dataValues.Category.name },
-        status: task.dataValues.status,
+        id: task.dataValues.id,
+        task_name: task.dataValues.task_name || '',
+        description: task.dataValues.description || '',
+        start_date: task.dataValues.start_date ? task.dataValues.start_date.toISOString() : '',
+        no_of_working_hours: task.dataValues.no_of_working_hours || 0,
+        hourly_rate: parseFloat(task.dataValues.hourly_rate) || 0.0,
+        currency: task.dataValues.currency || 'USD',
+        user_id: task.dataValues.user_id || 0,
+        category: {
+          id: task.dataValues.Category?.id || 0,
+          name: task.dataValues.Category?.name || '',
+        },
+        status: task.dataValues.status || '',
         progress: task.dataValues.progress || '',
       });
     } catch (error) {

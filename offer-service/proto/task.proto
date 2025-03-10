@@ -22,7 +22,7 @@ message TaskResponse {
   string task_name = 2;
   string description = 3;
   string start_date = 4;
-  int32 no_of_working_hours = 5;
+  double no_of_working_hours = 5;
   double hourly_rate = 6;
   Currency currency = 7;
   Category category = 8;

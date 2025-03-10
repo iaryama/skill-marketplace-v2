@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { JWT_SECRET_KEY } from '../configuration/config';
 import { HTTP_STATUS_CODE } from '../helpers/constants';
 import { failureResponse } from '../helpers/responseHelpers';
+import { Logger } from '../helpers/logger';
 
 export async function _authenticate(req: Request, res: Response) {
   const authHeader = req.headers.authorization;
@@ -22,6 +23,7 @@ export async function authenticateClient(req: Request, res: Response, next: Next
     if (res.locals.role !== 'client') return failureResponse(res, HTTP_STATUS_CODE.UNAUTHORIZED, 'Not Authorized User');
     next();
   } catch (err) {
+    Logger.ERROR(err);
     return failureResponse(res, HTTP_STATUS_CODE.UNAUTHORIZED, 'Invalid token');
   }
 }
@@ -32,6 +34,7 @@ export async function authenticateContractor(req: Request, res: Response, next: 
     if (res.locals.role !== 'contractor') return failureResponse(res, HTTP_STATUS_CODE.UNAUTHORIZED, 'Not Authorized User');
     next();
   } catch (err) {
+    Logger.ERROR(err);
     return failureResponse(res, HTTP_STATUS_CODE.UNAUTHORIZED, 'Invalid token');
   }
 }
