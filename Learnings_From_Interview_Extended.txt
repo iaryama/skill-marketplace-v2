@@ -11,7 +11,8 @@ TO_DO: ZKProver In Future
 
 4. Threads & Processes: Threads are part of a process and share memory; multiple cores enable concurrent execution, typically running two threads per core.
 
-5. Cloudflare Workers: Uses isolates for lightweight, fast execution, allowing multiple processes to run concurrently within an isolate.
+5. Cloudflare Workers: Single process can run multiple isolates. Uses isolates for lightweight, fast execution, allowing multiple processes to run concurrently within an isolate.
+https://blog.cloudflare.com/cloud-computing-without-containers/
 
 6. SOLID in :  
    - S: Single Responsibility – UserService handles user logic separately.  
