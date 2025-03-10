@@ -29,7 +29,7 @@ grpcServer.addService(taskPackage.TaskService.service, {
         start_date: task.dataValues.start_date ? task.dataValues.start_date.toISOString() : '',
         no_of_working_hours: task.dataValues.no_of_working_hours || 0,
         hourly_rate: parseFloat(task.dataValues.hourly_rate) || 0.0,
-        currency: task.dataValues.currency || 'USD',
+        currency: task.dataValues.currency,
         user_id: task.dataValues.user_id || 0,
         category: {
           id: task.dataValues.Category?.id || 0,

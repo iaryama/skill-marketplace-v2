@@ -13,6 +13,7 @@ class Task extends Model {
   public no_of_working_hours!: number;
   public hourly_rate!: number;
   public progress!: string;
+  public status!: string;
   public currency!: Currency;
 }
 
@@ -24,6 +25,7 @@ Task.init(
     start_date: { type: DataTypes.DATE, allowNull: false },
     no_of_working_hours: { type: DataTypes.INTEGER, allowNull: false },
     hourly_rate: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
+    status: { type: DataTypes.STRING },
     currency: { type: DataTypes.ENUM({ values: Object.values(Currency) }), allowNull: false },
     progress: { type: DataTypes.STRING },
     category_id: { type: DataTypes.INTEGER, references: { model: Category, key: 'id' } },
