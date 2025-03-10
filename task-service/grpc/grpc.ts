@@ -22,7 +22,7 @@ grpcServer.addService(taskPackage.TaskService.service, {
 
       console.log(task.dataValues);
 
-      callback(null, {
+      const response = {
         id: task.dataValues.id,
         task_name: task.dataValues.task_name || '',
         description: task.dataValues.description || '',
@@ -37,7 +37,10 @@ grpcServer.addService(taskPackage.TaskService.service, {
         },
         status: task.dataValues.status || '',
         progress: task.dataValues.progress || '',
-      });
+      };
+      console.log('Response ', response);
+
+      callback(null), response;
     } catch (error) {
       Logger.ERROR(error);
       callback({ code: grpc.status.INTERNAL, message: 'Internal server error' });
