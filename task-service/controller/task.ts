@@ -118,7 +118,7 @@ export const rejectTask = async (req: Request, res: Response) => {
     return failureResponse(res, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, 'Internal server error');
   }
 };
-
+export const updateTaskProgressValidation = [body('description').isString().notEmpty()];
 export const updateTaskProgress = async (req: Request, res: Response) => {
   try {
     const { task_id } = req.params;

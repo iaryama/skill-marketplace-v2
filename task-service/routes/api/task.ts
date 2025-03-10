@@ -9,6 +9,7 @@ import {
   rejectTask,
   updateTaskProgress,
   completeTask,
+  updateTaskProgressValidation,
 } from '../../controller/task';
 import { authenticate } from '../../middleware/authenticate';
 import { HTTP_STATUS_CODE } from '../../helpers/constants';
@@ -37,7 +38,7 @@ router
 
 router
   .route('/:task_id/progress')
-  .patch(authenticate, updateTaskProgress)
+  .patch(authenticate, updateTaskProgressValidation, updateTaskProgress)
   .all((req, res) => failureResponse(res, HTTP_STATUS_CODE.METHOD_NOT_ALLOWED, 'METHOD_NOT_ALLOWED'));
 
 router
