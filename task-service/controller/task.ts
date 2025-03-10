@@ -130,6 +130,7 @@ export const updateTaskProgress = async (req: Request, res: Response) => {
     const timestamp = new Date().toISOString();
     task.dataValues.progress = `${task.dataValues.progress || ''}\n[${timestamp}] ${description}`;
     await task.save();
+    console.log(task.dataValues);
 
     return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task progress updated' });
   } catch (err) {
