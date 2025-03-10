@@ -126,11 +126,12 @@ export const updateTaskProgress = async (req: Request, res: Response) => {
 
     const task = await Task.findByPk(task_id);
     if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
+    console.log('In', task.dataValues);
 
     const timestamp = new Date().toISOString();
     task.dataValues.progress = `${task.dataValues.progress || ''}\n[${timestamp}] ${description}`;
     await task.save();
-    console.log(task.dataValues);
+    console.log('End', task.dataValues);
 
     return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task progress updated' });
   } catch (err) {
