@@ -28,9 +28,9 @@ grpcServer.addService(taskPackage.TaskService.service, {
         description: task.dataValues.description || '',
         start_date: task.dataValues.start_date ? task.dataValues.start_date.toISOString() : '',
         no_of_working_hours: task.dataValues.no_of_working_hours,
+        user_id: task.dataValues.user_id, // Corrected placement
         hourly_rate: task.dataValues.hourly_rate,
         currency: task.dataValues.currency,
-        user_id: task.dataValues.user_id,
         category: {
           id: task.dataValues.Category?.id,
           name: task.dataValues.Category?.name || '',
@@ -38,6 +38,7 @@ grpcServer.addService(taskPackage.TaskService.service, {
         status: task.dataValues.status || '',
         progress: task.dataValues.progress || '',
       };
+
       console.log('Response ', response);
 
       callback(null, response);
