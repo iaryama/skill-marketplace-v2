@@ -24,11 +24,11 @@ grpcServer.addService(taskPackage.TaskService.service, {
 
       const response = {
         id: task.dataValues.id,
-        task_name: task.dataValues.task_name || '',
-        description: task.dataValues.description || '',
-        start_date: task.dataValues.start_date ? task.dataValues.start_date.toISOString() : '',
+        task_name: task.dataValues.task_name,
+        description: task.dataValues.description,
+        start_date: task.dataValues.start_date.toISOString(),
         no_of_working_hours: task.dataValues.no_of_working_hours,
-        user_id: task.dataValues.user_id, // Corrected placement
+        user_id: task.dataValues.user_id,
         hourly_rate: task.dataValues.hourly_rate,
         currency: task.dataValues.currency,
         category: {
