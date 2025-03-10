@@ -129,9 +129,9 @@ export const updateTaskProgress = async (req: Request, res: Response) => {
     console.log('In', task.dataValues);
 
     const timestamp = new Date().toISOString();
-    task.dataValues.progress = `${task.dataValues.progress || ''}\n[${timestamp}] ${description}`;
-    await task.save();
-    console.log('End', task.dataValues);
+    const progress = `${task.dataValues.progress || ''}\n[${timestamp}] ${description}`;
+    await task.update({ progress });
+    console.log('End', (await Task.findByPk(task_id)).dataValues);
 
     return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task progress updated' });
   } catch (err) {
