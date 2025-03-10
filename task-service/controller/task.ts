@@ -75,7 +75,7 @@ export const updateTask = async (req: Request, res: Response) => {
     }
 
     const { user_id } = res.locals as { user_id: number };
-    const task = await Task.upsert({ id: task_id, ...req.body, user_id });
+    await Task.upsert({ id: task_id, ...req.body, user_id });
 
     return successResponse(res, HTTP_STATUS_CODE.CREATED, { id: task_id, ...req.body, user_id });
   } catch (err) {
@@ -109,8 +109,7 @@ export const rejectTask = async (req: Request, res: Response) => {
     const task = await Task.findByPk(task_id);
     if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
 
-    task.dataValues.status = 'in-progress';
-    await task.save();
+    await task.update({ status: 'in-progress' });
 
     return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task completion rejected' });
   } catch (err) {
@@ -129,7 +128,7 @@ export const updateTaskProgress = async (req: Request, res: Response) => {
 
     const timestamp = new Date().toISOString();
     const progress = `${task.dataValues.progress || ''}\n[${timestamp}] ${description}`;
-    await task.update({ progress });
+    await task.update({ progress, status: 'in-progress' });
 
     return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task progress updated' });
   } catch (err) {
@@ -145,8 +144,7 @@ export const completeTask = async (req: Request, res: Response) => {
     const task = await Task.findByPk(task_id);
     if (!task) return failureResponse(res, HTTP_STATUS_CODE.NOT_FOUND, 'Task not found');
 
-    task.dataValues.status = 'completed';
-    await task.save();
+    await task.update({ status: 'completed' });
 
     return successResponse(res, HTTP_STATUS_CODE.OK, { message: 'Task marked as completed' });
   } catch (err) {
