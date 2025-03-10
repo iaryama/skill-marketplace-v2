@@ -24,7 +24,7 @@ export const createTask = async (req: Request, res: Response) => {
   }
   try {
     const { user_id } = res.locals;
-    const category = Category.findByPk(req.body.category_id);
+    const category = await Category.findByPk(req.body.category_id);
     if (!category) {
       return failureResponse(res, HTTP_STATUS_CODE.BAD_REQUEST, 'Category not found');
     }

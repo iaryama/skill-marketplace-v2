@@ -53,12 +53,12 @@ This system consists of **four services**:
 
 ### **Offer Service**
 
-| Operation             | HTTP Method | Endpoint                       | API Type | Used By    |
-| --------------------- | ----------- | ------------------------------ | -------- | ---------- |
-| Create Offer          | `POST`      | `/offer/task/{task_id}/add`    | REST     | UI Clients |
-| Get Offers By Task ID | gRPC        | `GetOffersByTaskId` (Internal) | gRPC     | Task       |
-| Accept Offer          | `PATCH`     | `/offer/{offer_id}/accept`     | REST     | UI Clients |
-| Reject Offer          | `PATCH`     | `/offer/{offer_id}/reject`     | REST     | UI Clients |
+| Operation             | HTTP Method | Endpoint                    | API Type | Used By    |
+| --------------------- | ----------- | --------------------------- | -------- | ---------- |
+| Create Offer          | `POST`      | `/offer/task/{task_id}/add` | REST     | UI Clients |
+| Get Offers By Task ID | `GET`       | `GetOffersByTaskId`         | REST     | UI Client  |
+| Accept Offer          | `PATCH`     | `/offer/{offer_id}/accept`  | REST     | UI Clients |
+| Reject Offer          | `PATCH`     | `/offer/{offer_id}/reject`  | REST     | UI Clients |
 
 ---
 
