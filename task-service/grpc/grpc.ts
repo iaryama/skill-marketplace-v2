@@ -40,7 +40,7 @@ grpcServer.addService(taskPackage.TaskService.service, {
       };
       console.log('Response ', response);
 
-      callback(null), response;
+      callback(null, response);
     } catch (error) {
       Logger.ERROR(error);
       callback({ code: grpc.status.INTERNAL, message: 'Internal server error' });
