@@ -1,0 +1,622 @@
+{
+	"info": {
+		"_postman_id": "415b1ac8-9804-49f8-b5b9-36614580d860",
+		"name": "Skill-Marketplace",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30164407"
+	},
+	"item": [
+		{
+			"name": "Auth Service",
+			"item": [
+				{
+					"name": "SignUp-Individual",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"providerType\": \"individual\",\n  \"firstName\": \"Aryama\",\n  \"role\" : \"contractor\",\n  \"lastName\": \"Ivaturi\",\n  \"email\": \"aryu14@gmail.com\",\n  \"password\": \"Welcome@123\",\n  \"mobileNumber\": \"8074069231\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3000/user/signup",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignUp-Company",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"providerType\": \"company\",\n  \"firstName\": \"Aryama\",\n  \"lastName\": \"Ivaturi\",\n  \"email\": \"iaryama@blockshards.in\",\n  \"password\": \"Welcome@123\",\n  \"mobileNumber\": \"8074069231\",\n  \"companyName\": \"Tech Solutions Inc.\",\n  \"businessTaxNumber\": \"AB12345678\",\n  \"streetNumber\": \"42\",\n  \"streetName\": \"Innovation Street\",\n  \"city\": \"Hyderabad\",\n  \"role\" : \"client\",\n  \"state\": \"Telangana\",\n  \"postCode\": \"520008\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3000/user/signup",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login-Individual",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "U01QOmFyeXUxNEBnbWFpbC5jb20qV2VsY29tZUAxMjM=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3000/user/login",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login-Company",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "U01QOmlhcnlhbWFAYmxvY2tzaGFyZHMuaW4qV2VsY29tZUAxMjM=",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3000/user/login",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Skill Service",
+			"item": [
+				{
+					"name": "Add Skill",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoiY29udHJhY3RvciIsImlhdCI6MTc0MTU1NzQxOSwiZXhwIjoxNzQxNTU4MzE5fQ.06S1v1l1CffPMXkazkGtQjwFqz0nAdBMD9dcW1h0X_c",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"name\": \"Node Js\",\n    \"experience\": 5,\n    \"nature_of_work\": \"online\",\n    \"hourly_rate\": 50.00,\n    \"currency\": \"USD\",\n    \"category_id\": 1\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3001/skill/add",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3001",
+							"path": [
+								"skill",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Skill",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoiY29udHJhY3RvciIsImlhdCI6MTc0MTU1OTA1NCwiZXhwIjoxNzQxNTU5OTU0fQ.BGkTwcn8kZOUmEI3nOsVZX2Csfi0WftJU7WKfFvpi7I",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"name\": \"Node Js\",\n    \"experience\": 5,\n    \"nature_of_work\": \"onsite\",\n    \"hourly_rate\": 50.00,\n    \"currency\": \"USD\",\n    \"category_id\": 1\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3001/skill/1",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3001",
+							"path": [
+								"skill",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Skill",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoiY29udHJhY3RvciIsImlhdCI6MTc0MTU1NzQxOSwiZXhwIjoxNzQxNTU4MzE5fQ.06S1v1l1CffPMXkazkGtQjwFqz0nAdBMD9dcW1h0X_c",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3001/skill/1",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3001",
+							"path": [
+								"skill",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task Service",
+			"item": [
+				{
+					"name": "Add Task",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiY2xpZW50IiwiaWF0IjoxNzQxNTU4NzYxLCJleHAiOjE3NDE1NTk2NjF9._ZrKqrgCvZtPvbmGLjvQQJHDfSrdG0AauSYPOFhNsjc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"category_id\": 1,\n  \"task_name\": \"Project Alpha Development\",\n  \"description\": \"Developing core features for Project Alpha.\",\n  \"start_date\": \"2024-10-27\",\n  \"no_of_working_hours\": 8,\n  \"hourly_rate\": 25.50,\n  \"currency\": \"USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3002/task/add",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3002",
+							"path": [
+								"task",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Task",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiY2xpZW50IiwiaWF0IjoxNzQxNTU4NzYxLCJleHAiOjE3NDE1NTk2NjF9._ZrKqrgCvZtPvbmGLjvQQJHDfSrdG0AauSYPOFhNsjc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"category_id\": 1,\n  \"task_name\": \"Project Alpha Development\",\n  \"description\": \"Developing core features for Project Alpha.\",\n  \"start_date\": \"2024-10-27\",\n  \"no_of_working_hours\": 10,\n  \"hourly_rate\": 25.50,\n  \"currency\": \"USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3002/task/1",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3002",
+							"path": [
+								"task",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Task",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiY2xpZW50IiwiaWF0IjoxNzQxNTU4NzYxLCJleHAiOjE3NDE1NTk2NjF9._ZrKqrgCvZtPvbmGLjvQQJHDfSrdG0AauSYPOFhNsjc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3002/task/1",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3002",
+							"path": [
+								"task",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Completion",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiY2xpZW50IiwiaWF0IjoxNzQxNTg4MTAwLCJleHAiOjE3NDE1ODkwMDB9.G9Fe0bUdzS09ZPGUeBf0g7wVUs6owxaL-86VvyeJfvI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3002/task/1/accept-completion",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3002",
+							"path": [
+								"task",
+								"1",
+								"accept-completion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Task Progress Completion",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoiY29udHJhY3RvciIsImlhdCI6MTc0MTU4NzM3MCwiZXhwIjoxNzQxNTg4MjcwfQ.BcC-xB-HzkHOlgEGSL4nFXA8oDH1JThVk0HIP28axbc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Task is completed alright\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3002/task/1/progress",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3002",
+							"path": [
+								"task",
+								"1",
+								"progress"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reject Completion",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiY2xpZW50IiwiaWF0IjoxNzQxNTg2Nzc1LCJleHAiOjE3NDE1ODc2NzV9.UHmuRKDMkzN4pijeNHKL1t-wBAChxnC0nRu6leQPneM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3002/task/1/reject-completion",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3002",
+							"path": [
+								"task",
+								"1",
+								"reject-completion"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Offer Service",
+			"item": [
+				{
+					"name": "Add Offer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJyb2xlIjoiY29udHJhY3RvciIsImlhdCI6MTc0MTU2MzMyNywiZXhwIjoxNzQxNTY0MjI3fQ.6ENVhzlnaB6ux62EkEfTspx8eJa5OzV1HTLTugGDS78",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"proposal\": \"Developing core features for Project Alpha.\",\n  \"hourly_rate\": 25.50,\n  \"currency\": \"USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3003/offer/task/1/add",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3003",
+							"path": [
+								"offer",
+								"task",
+								"1",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Offers By Task",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiY2xpZW50IiwiaWF0IjoxNzQxNTgyOTY1LCJleHAiOjE3NDE1ODM4NjV9.sbRsplEatUd5dRa9Hdl6AWL6aVW2MgmEIRynNwJnJ1o",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"proposal\": \"Developing core features for Project Alpha.\",\n  \"hourly_rate\": 25.50,\n  \"currency\": \"USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3003/offer/task/1",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3003",
+							"path": [
+								"offer",
+								"task",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Offer",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiY2xpZW50IiwiaWF0IjoxNzQxNTg1OTM4LCJleHAiOjE3NDE1ODY4Mzh9.Iaj5a1v_im5a-tJmPu3WHomTgDMNZuZk4u3339O6MFU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3003/offer/1/accept",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3003",
+							"path": [
+								"offer",
+								"1",
+								"accept"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reject Offer",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiY2xpZW50IiwiaWF0IjoxNzQxNTg1OTM4LCJleHAiOjE3NDE1ODY4Mzh9.Iaj5a1v_im5a-tJmPu3WHomTgDMNZuZk4u3339O6MFU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{protocol}}://{{domain}}:3003/offer/1/reject",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "3003",
+							"path": [
+								"offer",
+								"1",
+								"reject"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "domain",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "protocol",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
